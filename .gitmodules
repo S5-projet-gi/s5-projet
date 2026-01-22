@@ -1,0 +1,6 @@
+[submodule "PiCar/SunFounder_PiCar"]
+	path = PiCar/SunFounder_PiCar
+	url = https://github.com/sunfounder/SunFounder_PiCar.git
+[submodule "PiCar/SunFounder_PiCar-S"]
+	path = PiCar/SunFounder_PiCar-S
+	url = https://github.com/sunfounder/SunFounder_PiCar-S.git
