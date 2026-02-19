@@ -9,8 +9,8 @@ class PiCarControl(Control):
     front_wheels: Front_Wheels
 
     def __init__(self):
-        self.back_wheels = self.Back_Wheels()
-        self.front_wheels = self.Front_Wheels()
+        self.back_wheels = self.Back_Wheels(debug=True)
+        self.front_wheels = self.Front_Wheels(debug=True)
 
     def forward(self):
         """Move both wheels forward"""

@@ -9,9 +9,12 @@ class Logic:
     def __init__(self, control: Control):
         self.control = control
 
+    def __del__(self):
+        self.control.stop()
+
     async def run(self):
         while True:
-            self.control.forward()
+            self.control.speed(30)
             await asyncio.sleep(1)
             self.control.stop()
             await asyncio.sleep(1)
