@@ -1,38 +1,42 @@
 extends Node3D
 
-# Variables
-var NetworkIPAddrRegex = RegEx.new()
+@onready var le_ip_address: LineEdit = $GridContainer/le_IpAdress
+@onready var btn_connect: Button = $GridContainer/btn_Connect
+@onready var lb_status: Label = $GridContainer/lb_ConnectionStatusPackets
 
-# Engine functions
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	NetworkIPAddrRegex.compile(r'^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$')
-	#get_node("NetworkFSM").current_state = $NetworkFSM/NetworkInitState
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func _ready() -> void:
+	Network.status_changed.connect(_on_network_status_changed)
+	Network.state_changed.connect(_on_network_state_changed)
 
-# Signals functions
-func _on_quit_pressed():
-	$NetworkFSM.current_state = $NetworkFSM/NetworkClosingConnectionState
+func _on_quit_pressed() -> void:
+	Network.disconnect_network()
 	get_tree().quit()
 
-func _on_connect_pressed():
-	# IP address REGEX before starting connection
-	if get_node("GridContainer/btn_Connect").text == "Disconnect":
-		$NetworkFSM.current_state = $NetworkFSM/NetworkClosingConnectionState
-	else:
-		var RegexResult = NetworkIPAddrRegex.search_all(get_node("GridContainer/le_IpAdress").text)
-		if RegexResult.size() > 0:
-			# Disable button before having a connection
-			get_node("GridContainer/btn_Connect").disabled = true
-			get_node("GridContainer/lb_ConnectionStatusPackets").text = "Connecting"
-			get_node("NetworkFSM").current_state = $NetworkFSM/NetworkInitState
-		else:
-			get_node("AspectRatioContainer/GridContainer/lb_ConnectionStatusPackets").text = "Wrong IP Address!"
+func _on_connect_pressed() -> void:
+	if btn_connect.text == "Disconnect":
+		Network.disconnect_network()
+		return
 
+	btn_connect.disabled = true
+	Network.connect_to_ip(le_ip_address.text)
 
-func _on_check_box_toggled(toggled_on):
+func _on_check_box_toggled(toggled_on: bool) -> void:
+	le_ip_address.editable = !toggled_on
 	if toggled_on:
-		$GridContainer/le_IpAdress.text = "127.0.0.1"
-		get_node("NetworkFSM").current_state = $NetworkFSM/NetworkInitState
+		le_ip_address.text = "127.0.0.1"
+		Network.set_localhost()
+
+func _on_network_status_changed(text: String) -> void:
+	lb_status.text = text
+	if text == "Connected!":
+		btn_connect.disabled = false
+		btn_connect.text = "Disconnect"
+	elif text == "Disconnected":
+		btn_connect.disabled = false
+		btn_connect.text = "Connect"
+	elif text == "Wrong IP Address!":
+		btn_connect.disabled = false
+
+func _on_network_state_changed(state: Network.NetworkState) -> void:
+	# Keep UI in sync with internal state if needed later
+	pass

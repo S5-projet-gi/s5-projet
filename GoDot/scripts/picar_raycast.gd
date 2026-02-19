@@ -18,7 +18,7 @@ var rot_acceleration = 0.0075
 var lfs = 0
 var steer_dir = 0
 
-var nfsm = 0
+var network = Network
 var lfs_simulated_ignored = false
 
 const max_speed = 0.2	# Speed is float from 0.0 to 1.0
@@ -29,40 +29,39 @@ const low_speed = 0.05	# Speed is float from 0.0 to 1.0
 func _ready():
 	ray = get_node("RayCast3D")
 	lfs = $line_follower_sensor.get_child(0)
-	nfsm = $"../NetworkFSM"
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	car_speed(delta)
-	
-	if nfsm.data_received['distance'] < 30 && nfsm.data_received['distance'] > 20:
+
+	if Network.data_received['distance'] < 30 && Network.data_received['distance'] > 20:
 		wall_avoidance = true
-		
+
 	if wall_avoidance:
-		wall_avoidance_loop(delta)	
+		wall_avoidance_loop(delta)
 	else:
 		line_follower_car_angle(delta)
-		
-	
+
+
 	# If websocket connection
-	if nfsm.current_state == $"../NetworkFSM/NetworkProcessState" :
-		#print(nfsm.data_received['line_follower'])
-		nfsm.data_to_send["velocity"] = speed
-		nfsm.data_to_send["direction"] = steer_dir
-		
+	if Network.network_state == Network.NetworkState.PROCESS :
+		#print(Network.data_received['line_follower'])
+		Network.data_to_send["velocity"] = speed
+		Network.data_to_send["direction"] = steer_dir
+
 		lfs_simulated_ignored = true
 	else:
 		if steer_dir != turn_angle_big:
 			translate(Vector3(-speed * acceleration, 0, 0))
 		rotate_y(-steer_dir * rot_acceleration)
-		
+
 		lfs_simulated_ignored = false
 
 func _physics_process(delta):
 	#pass
 # Ray casting for distance
-	if !nfsm.current_state == $"../NetworkFSM/NetworkProcessState" :
+	if Network.network_state != Network.NetworkState.PROCESS :
 		if ray.is_colliding():
 			ray_collision_point = ray.get_collision_point()
 			distance = ray_collision_point.distance_to(position)
@@ -80,32 +79,32 @@ const turn_accel = 2
 var dir_buf = []
 func line_follower_car_angle(delta):
 	var temp_dir = steer_dir
-	# Should apply smoothing with delta for direction. 
+	# Should apply smoothing with delta for direction.
 	# The same way/feeling that Trackmania does it
 	if lfs_simulated_ignored:
-		if nfsm.data_received['line_follower'][2]:
+		if Network.data_received['line_follower'][2]:
 			#print("Middle")
 			temp_dir = 0
-		elif nfsm.data_received['line_follower'][4]:
+		elif Network.data_received['line_follower'][4]:
 			#print("Right")
 			if temp_dir > -turn_angle_big:
 				temp_dir += -delta * turn_accel
 			else:
 				temp_dir = -turn_angle_big
-		elif nfsm.data_received['line_follower'][0]:
+		elif Network.data_received['line_follower'][0]:
 			#print("Left")
 			if temp_dir < turn_angle_big:
 				temp_dir += delta * turn_accel
 			else:
 				temp_dir = turn_angle_big
-		elif nfsm.data_received['line_follower'][1]:
+		elif Network.data_received['line_follower'][1]:
 			#print("Middle Left")
 			if temp_dir < turn_angle_mid:
 				temp_dir += delta * turn_accel
 			else:
 				temp_dir = turn_angle_mid
 			speed = low_speed
-		elif nfsm.data_received['line_follower'][3]:
+		elif Network.data_received['line_follower'][3]:
 			#print("Middle Right")
 			if temp_dir > -turn_angle_mid:
 				temp_dir += -delta * turn_accel
@@ -154,25 +153,25 @@ func line_follower_car_angle(delta):
 				temp_dir = turn_angle_big
 			elif mean >= 0 && mean < turn_angle_mid:
 				temp_dir = turn_angle_mid
-				
+
 			speed = low_speed
 			#temp_dir = 0
-		
+
 	# All light sensor activated -> Need to stop
-	if (lfs.line_follower_array[0] || nfsm.data_received['line_follower'][0]) && (lfs.line_follower_array[4] || nfsm.data_received['line_follower'][4]) && (lfs.line_follower_array[3] || nfsm.data_received['line_follower'][3]) && (lfs.line_follower_array[1] || nfsm.data_received['line_follower'][1]) && (lfs.line_follower_array[2] || nfsm.data_received['line_follower'][2]):
+	if (lfs.line_follower_array[0] || Network.data_received['line_follower'][0]) && (lfs.line_follower_array[4] || Network.data_received['line_follower'][4]) && (lfs.line_follower_array[3] || Network.data_received['line_follower'][3]) && (lfs.line_follower_array[1] || Network.data_received['line_follower'][1]) && (lfs.line_follower_array[2] || Network.data_received['line_follower'][2]):
 		speed = 0
-	
+
 	# Apply Steer dir
 	steer_dir = temp_dir
-	
-	
+
+
 	if len(dir_buf) > 15:
 		print("Here")
 		print(dir_buf)
 		dir_buf.pop_front()
 		dir_buf.append(temp_dir)
 	else:
-		dir_buf.append(temp_dir)	
+		dir_buf.append(temp_dir)
 	#print(steer_dir)
 
 
@@ -216,8 +215,8 @@ func wall_avoidance_loop(delta):
 		speed = 0
 	else:
 		wall_avoidance = false
-		temp_time = 0.0 
-	
+		temp_time = 0.0
+
 	temp_time += delta
 
 func average(numbers: PackedByteArray) -> float:
