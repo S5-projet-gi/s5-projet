@@ -20,7 +20,9 @@ class GoDotControl(Control):
         if self.client is None:
             return
         asyncio.create_task(
-            self.client.send(json.dumps({"command": "speed", "value": speed}))
+            self.client.send(
+                json.dumps({"type": "control", "command": "speed", "value": speed})
+            )
         )
 
     def stop(self):
@@ -28,7 +30,9 @@ class GoDotControl(Control):
         if self.client is None:
             return
         asyncio.create_task(
-            self.client.send(json.dumps({"command": "speed", "value": 0}))
+            self.client.send(
+                json.dumps({"type": "control", "command": "speed", "value": 0})
+            )
         )
 
     def turn_straight(self):
@@ -36,7 +40,9 @@ class GoDotControl(Control):
         if self.client is None:
             return
         asyncio.create_task(
-            self.client.send(json.dumps({"command": "turn", "value": 0}))
+            self.client.send(
+                json.dumps({"type": "control", "command": "turn", "value": 0})
+            )
         )
 
     def turn(self, angle):
@@ -44,7 +50,9 @@ class GoDotControl(Control):
         if self.client is None:
             return
         asyncio.create_task(
-            self.client.send(json.dumps({"command": "turn", "value": angle}))
+            self.client.send(
+                json.dumps({"type": "control", "command": "turn", "value": angle})
+            )
         )
 
     def distance(self) -> float:

@@ -91,6 +91,8 @@ func _update_network_fsm(delta: float) -> void:
 					print(data_received)
 					if data_received == null:
 						print("Error while parsing received string")
+					if data_received["type"] == "control":
+						print("Received control command:", data_received["command"], data_received["value"])
 
 				# Send data every ~50ms
 				if send_timer > 0.05:
