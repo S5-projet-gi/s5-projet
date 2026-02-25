@@ -94,7 +94,8 @@ func _update_network_fsm(delta: float) -> void:
 
 				# Send data every ~50ms
 				if send_timer > 0.05:
-					var json_data = JSON.stringify(data_to_send).to_utf8_buffer()
+					var distance = 8.91
+					var json_data = JSON.stringify({ "type": "sensor", "data": { "distance": distance }}).to_utf8_buffer()
 					socket.send(json_data)
 					send_timer = 0.0
 				else:

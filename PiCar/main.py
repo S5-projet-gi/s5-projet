@@ -1,10 +1,10 @@
 import asyncio
+import json
 import os
 import sys
 
 from websockets.asyncio.server import ServerConnection, serve
 
-from control import Control
 from logic import Logic
 
 
@@ -51,7 +51,9 @@ class WebsocketServer:
 
         try:
             async for message in client:
-                await client.send(message)
+                message = json.loads(message)
+                if message["type"] == "sensor":
+                    control.sensors = message["data"]
         finally:
             logic_task.cancel()
             await client.close()

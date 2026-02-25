@@ -13,8 +13,16 @@ class Logic:
         self.control.stop()
 
     async def run(self):
+        # Wait for sensors to be initialized
+        await asyncio.sleep(2)
+
         while True:
-            self.control.speed(30)
-            await asyncio.sleep(1)
-            self.control.stop()
-            await asyncio.sleep(1)
+            try:
+                self.control.move(30)
+                await asyncio.sleep(1)
+                self.control.stop()
+                await asyncio.sleep(1)
+                self.control.move(-30)
+                await asyncio.sleep(1)
+            except Exception as e:
+                print("Error in logic", e)
