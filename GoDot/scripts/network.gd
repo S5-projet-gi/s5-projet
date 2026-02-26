@@ -96,7 +96,9 @@ func _update_network_fsm(delta: float) -> void:
 
 				# Send data every ~50ms
 				if send_timer > 0.05:
-					var distance = 8.91
+					var picar_raycast = get_tree().current_scene.get_node_or_null("Ultrasonic")
+
+					var distance = picar_raycast.get_distance()
 					var json_data = JSON.stringify({ "type": "sensor", "data": { "distance": distance }}).to_utf8_buffer()
 					socket.send(json_data)
 					send_timer = 0.0
