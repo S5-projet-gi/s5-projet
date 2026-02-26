@@ -21,3 +21,7 @@ class Control:
     def distance(self) -> float:
         """Measure the distance to the nearest object"""
         raise NotImplementedError("This method must be implemented by a subclass")
+
+    def line(self) -> list[int]:
+        """Measure the luminance of the ground"""
+        raise NotImplementedError("This method must be implemented by a subclass")

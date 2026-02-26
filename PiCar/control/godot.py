@@ -58,3 +58,7 @@ class GoDotControl(Control):
     def distance(self) -> float:
         """Measure the distance to the nearest object"""
         return self.sensors.get("distance", math.inf)
+
+    def line(self) -> list[int]:
+        """Measure the luminance of the ground"""
+        return self.sensors.get("line", [0, 0, 0, 0, 0])
