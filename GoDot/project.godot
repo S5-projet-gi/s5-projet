@@ -26,7 +26,6 @@ window/size/viewport_height=1080
 
 [filesystem]
 
-import/blender/enabled=false
 import/fbx/enabled=false
 
 [input]
