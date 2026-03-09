@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://bk5l7umgip4v5"]
+[gd_scene load_steps=11 format=3 uid="uid://bk5l7umgip4v5"]
 
 [ext_resource type="Script" uid="uid://tq58jihq45r4" path="res://scripts/main.gd" id="1_eka3w"]
 [ext_resource type="PackedScene" uid="uid://dmimaosocfber" path="res://assets/pycar.blend" id="2_1bvp3"]
 [ext_resource type="Script" path="res://scripts/ultrasonic.gd" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://difir3bb2pwv4" path="res://assets/parcours.blend" id="5_lquwl"]
 [ext_resource type="PackedScene" uid="uid://xroxh5wjbwp6" path="res://line_follower_sensor.tscn" id="9_a0528"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y2p80"]
@@ -27,8 +28,8 @@ sky = SubResource("Sky_nfout")
 script = ExtResource("1_eka3w")
 
 [node name="Floor" type="CSGBox3D" parent="."]
-transform = Transform3D(4.9390707, 0, 0, 0, 0.70778716, 0, 0, 0, 3.7748463, -16.014336, -1.4551455, 1.9462132)
-size = Vector3(5, 0.5, 5)
+transform = Transform3D(7.3293295, 0, 0, 0, 0.70778716, 0, 0, 0, 5.60168, -22.67161, -1.4551455, 3.5763829)
+size = Vector3(9.597168, 0.5, 10.811798)
 material = SubResource("StandardMaterial3D_y2p80")
 
 [node name="PiCar#Camera3D" type="Camera3D" parent="."]
@@ -88,7 +89,7 @@ radial_segments = 32
 rings = 32
 
 [node name="pycar" parent="." instance=ExtResource("2_1bvp3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.252142, -0.5267396, 1.5110416)
+transform = Transform3D(-0.9998608, 0, 0.01668456, 0, 1, 0, -0.01668456, 0, -0.9998608, -49.382793, -0.5267396, 24.7971)
 
 [node name="PiCar#line_follower_sensor" parent="pycar" instance=ExtResource("9_a0528")]
 transform = Transform3D(9.927313e-07, 0, -15.915414, 0, 14.963355, 0, -22.711039, 0, -6.9568495e-07, -2.6068115, -0.26585776, 0.005314946)
@@ -98,6 +99,9 @@ transform = Transform3D(-7.365562e-05, -0.33747816, 0, -9.960084, 2.495678e-06, 
 target_position = Vector3(0, -0.8, 0)
 hit_from_inside = true
 script = ExtResource("2_h2yge")
+
+[node name="parcours" parent="." instance=ExtResource("5_lquwl")]
+transform = Transform3D(0.024021188, 0, 0, 0, 1, 0, 0, 0, 0.024021188, -11.4381485, 0, 2.3748786)
 
 [connection signal="toggled" from="GridContainer/CheckBox" to="." method="_on_check_box_toggled"]
 [connection signal="pressed" from="GridContainer/btn_Connect" to="." method="_on_connect_pressed"]
