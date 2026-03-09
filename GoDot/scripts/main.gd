@@ -7,6 +7,7 @@ extends Node3D
 func _ready() -> void:
 	Network.status_changed.connect(_on_network_status_changed)
 	Network.state_changed.connect(_on_network_state_changed)
+	print("Allo")
 
 func _on_quit_pressed() -> void:
 	Network.disconnect_network()
