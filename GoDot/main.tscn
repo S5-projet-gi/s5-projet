@@ -92,10 +92,12 @@ size = Vector3(0.1, 0.1, 0.1)
 
 [node name="Bille" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, -4.47035e-08, 0, 1, 0, 4.47035e-08, 0, 1, -47.567566, 0.48550552, 23.586796)
+collision_layer = 8
+collision_mask = 4
 mass = 0.1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Bille"]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, -0.036337495, 0)
 shape = SubResource("SphereShape3D_iys2i")
 
 [node name="CSGSphere3D" type="CSGSphere3D" parent="Bille"]
@@ -104,7 +106,7 @@ radial_segments = 32
 rings = 32
 
 [node name="pycar" parent="." instance=ExtResource("2_1bvp3")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -49.153656, -0.5267396, 23.548838)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -49.153656, -0.5267396, 23.823553)
 
 [node name="PiCar#line_follower_sensor" parent="pycar" instance=ExtResource("9_a0528")]
 transform = Transform3D(9.927313e-07, 0, -15.915414, 0, 14.963355, 0, -22.711039, 0, -6.9568495e-07, -2.6068115, -0.26585776, 0.005314946)
@@ -123,6 +125,8 @@ script = ExtResource("2_h2yge")
 transform = Transform3D(-1.95, 0, 3.2011107e-07, 0, 1.007, 0, -2.9444183e-07, 0, -2.12, -1.6028938, 0.7087414, -0.010980606)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="pycar/plaquette_blender_scale/PiCarFrame3_V2b" index="0"]
+collision_layer = 4
+collision_mask = 8
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="pycar/plaquette_blender_scale/PiCarFrame3_V2b/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_kek77")
