@@ -91,15 +91,25 @@ func _update_network_fsm(delta: float) -> void:
 					print(data_received)
 					if data_received == null:
 						print("Error while parsing received string")
-					if data_received["type"] == "control":
-						print("Received control command:", data_received["command"], data_received["value"])
+					if data_received.get("type") == "control":
+						data_to_send["velocity"] = data_received.get("speed", 0.0)
+						data_to_send["direction"] = data_received.get("steer_dir", 0.0)
+						print("Received control: speed=", data_to_send["velocity"], " steer_dir=", data_to_send["direction"])
 
 				# Send data every ~50ms
 				if send_timer > 0.05:
 					var picar_raycast = get_tree().current_scene.get_node_or_null("Ultrasonic")
-
-					var distance = picar_raycast.get_distance()
-					var json_data = JSON.stringify({ "type": "sensor", "data": { "distance": distance }}).to_utf8_buffer()
+					var distance = 100
+					if picar_raycast and picar_raycast.has_method("get_distance"):
+						distance = picar_raycast.get_distance()
+					
+					var line_follower_node = _get_line_follower_node()
+					var line_follower_array = [0, 0, 0, 0, 0]
+					if line_follower_node:
+						line_follower_array = line_follower_node.get_line_follower_array()
+					
+					var json_data = JSON.stringify({ "type": "sensor", "data": { "line_follower": line_follower_array, "distance": distance }}).to_utf8_buffer()
+					print("GODOT SENDING: type=sensor, line_follower=", line_follower_array, " distance=", distance)
 					socket.send(json_data)
 					send_timer = 0.0
 				else:
@@ -124,3 +134,15 @@ func _emit_status(text: String) -> void:
 
 func _is_valid_ip(ip: String) -> bool:
 	return network_ip_addr_regex.search_all(ip).size() > 0
+
+func _get_line_follower_node() -> Node:
+	# Recherche récursive dans toute l'arborescence
+	var queue = [get_tree().current_scene]
+	while queue.size() > 0:
+		var node = queue.pop_front()
+		if node and node.has_method("get_line_follower_array"):
+			return node
+		if node:
+			for child in node.get_children():
+				queue.append(child)
+	return null

@@ -96,7 +96,7 @@ radial_segments = 32
 rings = 32
 
 [node name="pycar" parent="." instance=ExtResource("2_1bvp3")]
-transform = Transform3D(-0.9998608, 0, 0.01668456, 0, 1, 0, -0.01668456, 0, -0.9998608, -11.167198, -0.5267396, 24.7971)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -49.153656, -0.5267396, 23.548838)
 
 [node name="PiCar#line_follower_sensor" parent="pycar" instance=ExtResource("9_a0528")]
 transform = Transform3D(9.927313e-07, 0, -15.915414, 0, 14.963355, 0, -22.711039, 0, -6.9568495e-07, -2.6068115, -0.26585776, 0.005314946)
@@ -104,7 +104,6 @@ transform = Transform3D(9.927313e-07, 0, -15.915414, 0, 14.963355, 0, -22.711039
 [node name="sensor_array" parent="pycar/PiCar#line_follower_sensor" index="0"]
 transform = Transform3D(0.9999999, 0, 1.8626451e-09, 0, 0.06603289, 0, 0, 0, 0.9999999, 0, 0, 0)
 collision_layer = 2
-collision_mask = 2
 
 [node name="Ultrasonic" type="RayCast3D" parent="pycar"]
 transform = Transform3D(-7.365562e-05, -0.33747816, 0, -9.960084, 2.495678e-06, 0, 0, 0, 11.476374, -1.8177605, 0.2304224, 0.001613617)
@@ -121,6 +120,11 @@ collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="parcours/Parcours Picar/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_7mycd")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.029456932, 0.9995661, 0, -0.9995661, -0.029456932, -22.489632, 34.223366, 3.6103687)
+current = true
+fov = 90.0
 
 [connection signal="toggled" from="GridContainer/CheckBox" to="." method="_on_check_box_toggled"]
 [connection signal="pressed" from="GridContainer/btn_Connect" to="." method="_on_connect_pressed"]

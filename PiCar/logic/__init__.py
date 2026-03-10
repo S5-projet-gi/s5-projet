@@ -1,4 +1,5 @@
 import asyncio
+import json
 import time
 
 from control import Control
@@ -43,6 +44,14 @@ class Logic:
                 else:
                     sensors = getattr(self.control, "sensors", {})
                     line_follower_array = sensors.get("line_follower", [0, 0, 0, 0, 0])
+                    print(f"[Logic] sensors dict={sensors}, line_follower_array={line_follower_array}")
+
+                    # Parse si c'est une string JSON
+                    if isinstance(line_follower_array, str):
+                        try:
+                            line_follower_array = json.loads(line_follower_array)
+                        except json.JSONDecodeError:
+                            line_follower_array = [0, 0, 0, 0, 0]
 
                     if (
                         not isinstance(line_follower_array, (list, tuple))

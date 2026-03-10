@@ -1,5 +1,3 @@
-import asyncio
-import json
 import math
 
 from websockets.asyncio.server import ServerConnection
@@ -11,49 +9,27 @@ class GoDotControl(Control):
     client: ServerConnection
 
     sensors: dict = {}
+    last_speed: float = 0.0
+    last_steer_dir: float = 0.0
 
     def __init__(self, client: ServerConnection):
         self.client = client
 
     def move(self, speed):
-        """Set the wheel speeds"""
-        if self.client is None:
-            return
-        asyncio.create_task(
-            self.client.send(
-                json.dumps({"type": "control", "command": "speed", "value": speed})
-            )
-        )
+        """Store speed to send to GoDot"""
+        self.last_speed = speed
 
     def stop(self):
         """Stop both wheels"""
-        if self.client is None:
-            return
-        asyncio.create_task(
-            self.client.send(
-                json.dumps({"type": "control", "command": "speed", "value": 0})
-            )
-        )
+        self.last_speed = 0.0
 
     def turn_straight(self):
         """Turn the front wheels back straight"""
-        if self.client is None:
-            return
-        asyncio.create_task(
-            self.client.send(
-                json.dumps({"type": "control", "command": "turn", "value": 0})
-            )
-        )
+        self.last_steer_dir = 0.0
 
     def turn(self, angle):
-        """Turn the front wheels to the giving angle"""
-        if self.client is None:
-            return
-        asyncio.create_task(
-            self.client.send(
-                json.dumps({"type": "control", "command": "turn", "value": angle})
-            )
-        )
+        """Store angle to send to GoDot"""
+        self.last_steer_dir = angle
 
     def distance(self) -> float:
         """Measure the distance to the nearest object"""
@@ -61,4 +37,4 @@ class GoDotControl(Control):
 
     def line(self) -> list[int]:
         """Measure the luminance of the ground"""
-        return self.sensors.get("line", [0, 0, 0, 0, 0])
+        return self.sensors.get("line_follower", [0, 0, 0, 0, 0])

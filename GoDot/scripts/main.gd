@@ -4,10 +4,50 @@ extends Node3D
 @onready var btn_connect: Button = $GridContainer/btn_Connect
 @onready var lb_status: Label = $GridContainer/lb_ConnectionStatusPackets
 
+var vehicle_body: Node3D = null
+var current_velocity: float = 0.0
+var current_steer_dir: float = 0.0
+const VEHICLE_SPEED = 30.0
+const ROTATION_SPEED = 2.0
+
 func _ready() -> void:
 	Network.status_changed.connect(_on_network_status_changed)
 	Network.state_changed.connect(_on_network_state_changed)
+	
+	# Find the vehicle body to control recursively
+	vehicle_body = _find_vehicle_body()
+	print("Vehicle body found: ", vehicle_body)
+	
 	print("Allo")
+
+func _find_vehicle_body() -> Node3D:
+	# Try to find pycar by name first
+	var pycar = get_tree().current_scene.get_node_or_null("pycar")
+	if pycar:
+		return pycar
+	
+	print("No pycar found!")
+	return null
+
+func _process(delta: float) -> void:
+	if Network.is_network_connected():
+		if vehicle_body == null:
+			print("DEBUG: vehicle_body is null")
+			return
+			
+		current_velocity = Network.data_to_send["velocity"]
+		current_steer_dir = Network.data_to_send["direction"]
+		print("Applying movement: velocity=", current_velocity, " steer_dir=", current_steer_dir)
+		
+		# Apply movement
+		var move_direction = Vector3.ZERO
+		move_direction.x = -current_velocity * VEHICLE_SPEED
+		
+		# Apply rotation
+		vehicle_body.rotation.y += -current_steer_dir * ROTATION_SPEED * delta
+		
+		# Move the vehicle
+		vehicle_body.global_position += vehicle_body.transform.basis * move_direction * delta
 
 func _on_quit_pressed() -> void:
 	Network.disconnect_network()
