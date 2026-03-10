@@ -45,7 +45,7 @@ size = Vector3(9.597168, 0.5, 10.811798)
 material = SubResource("StandardMaterial3D_y2p80")
 
 [node name="PiCar#Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.5681599, 1.438836e-07, -0.82291824, 0, 1, 1.7484555e-07, 0.82291824, -9.934023e-08, 0.5681599, -54.735317, 0.1821909, 30.456657)
+transform = Transform3D(-4.371139e-08, -1.7484555e-07, 1, 0, 1, 1.7484555e-07, -1, 7.642742e-15, -4.371139e-08, 4.8727264, 0.1821909, 14.25738)
 current = true
 fov = 90.0
 near = 0.001
@@ -91,7 +91,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.33023, 0.0713751, 0.100219)
 size = Vector3(0.1, 0.1, 0.1)
 
 [node name="Bille" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, -4.47035e-08, 0, 1, 0, 4.47035e-08, 0, 1, -47.567566, 0.48550552, 23.586796)
+transform = Transform3D(1, 0, -4.47035e-08, 0, 1, 0, 4.47035e-08, 0, 1, -47.567566, 0.36882943, 23.586796)
 mass = 0.1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Bille"]
