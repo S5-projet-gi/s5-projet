@@ -44,6 +44,11 @@ transform = Transform3D(7.3293295, 0, 0, 0, 0.70778716, 0, 0, 0, 5.60168, -22.67
 size = Vector3(9.597168, 0.5, 10.811798)
 material = SubResource("StandardMaterial3D_y2p80")
 
+[node name="Floor2" type="CSGBox3D" parent="."]
+transform = Transform3D(7.3293295, 0, 0, 0, 0.70778716, 0, 0, 0, 5.60168, -22.67161, -1.4551455, 3.5763829)
+size = Vector3(9.597168, 0.5, 10.811798)
+material = SubResource("StandardMaterial3D_y2p80")
+
 [node name="PiCar#Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.5681599, 1.438836e-07, -0.82291824, 0, 1, 1.7484555e-07, 0.82291824, -9.934023e-08, 0.5681599, -54.735317, 0.1821909, 30.456657)
 current = true
