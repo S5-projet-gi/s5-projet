@@ -98,11 +98,11 @@ func _update_network_fsm(delta: float) -> void:
 
 				# Send data every ~50ms
 				if send_timer > 0.05:
-					var picar_raycast = get_tree().current_scene.get_node_or_null("Ultrasonic")
+					var ultrasonic_node = _get_ultrasonic_node()
 					var distance = 100
-					if picar_raycast and picar_raycast.has_method("get_distance"):
-						distance = picar_raycast.get_distance()
-					
+					if ultrasonic_node and ultrasonic_node.has_method("get_distance"):
+						distance = ultrasonic_node.get_distance()
+					print("Ultrasonic: ", ultrasonic_node.get_distance())
 					var line_follower_node = _get_line_follower_node()
 					var line_follower_array = [0, 0, 0, 0, 0]
 					if line_follower_node:
@@ -141,6 +141,18 @@ func _get_line_follower_node() -> Node:
 	while queue.size() > 0:
 		var node = queue.pop_front()
 		if node and node.has_method("get_line_follower_array"):
+			return node
+		if node:
+			for child in node.get_children():
+				queue.append(child)
+	return null
+
+func _get_ultrasonic_node() -> Node:
+	# Recherche récursive du nœud Ultrasonic
+	var queue = [get_tree().current_scene]
+	while queue.size() > 0:
+		var node = queue.pop_front()
+		if node and node.name == "Ultrasonic":
 			return node
 		if node:
 			for child in node.get_children():

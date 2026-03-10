@@ -8,8 +8,10 @@ var distance: float = NO_HIT_DISTANCE
 
 func _ready():
 	ray = get_node("../Ultrasonic")
-	ray.target_position = Vector3(-RAY_LENGTH, 0, 0)
+  # Offset: commence 10 unités PLUS LOIN, puis pointe vers l'avant
+	ray.target_position = Vector3(0, -RAY_LENGTH, 0)
 	ray.enabled = true
+
 
 func _physics_process(_delta):
 	if ray.is_colliding():

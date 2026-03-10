@@ -32,10 +32,11 @@ class Logic:
 
                 distance = self.control.distance()
 
-                # Trigger wall avoidance (copied from GoDot logic thresholds)
-                if (20 < distance < 30) or (distance < 0.3):
+                # Trigger wall avoidance when distance <= 3
+                if distance > 0 and distance <= 3:
                     if not self.wall_avoidance.state.active:
                         self.wall_avoidance.trigger()
+                        print(f"[Logic] Wall avoidance triggered! distance={distance}")
 
                 if self.wall_avoidance.state.active:
                     speed, steer_dir, done = self.wall_avoidance.update(delta)
@@ -44,7 +45,6 @@ class Logic:
                 else:
                     sensors = getattr(self.control, "sensors", {})
                     line_follower_array = sensors.get("line_follower", [0, 0, 0, 0, 0])
-                    print(f"[Logic] sensors dict={sensors}, line_follower_array={line_follower_array}")
 
                     # Parse si c'est une string JSON
                     if isinstance(line_follower_array, str):
