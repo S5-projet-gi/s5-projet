@@ -3,8 +3,9 @@ mid_speed: float = 0.1
 low_speed: float = 0.1
 accel_rate: float = 1.2
 
-line_follower_med_turn_angle: float = 40
-line_follower_max_turn_angle: float = 70
+line_follower_med_turn_angle: float = 60
+line_follower_max_turn_angle: float = 75
+line_follower_is_lost_turn_angle: float = 80
 
 dir_buffer_size: int = 16
 

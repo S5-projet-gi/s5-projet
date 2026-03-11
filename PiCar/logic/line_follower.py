@@ -6,10 +6,10 @@ import logic.const as const
 
 
 class LineFollowerLogic:
-    def __init__(self) -> None:
-        self.steer_dir: float = 0.0
-        self.speed: float = const.low_speed
-        self.finished: bool = False  # Flag pour fin de course
+    steer_dir: float = 0.0
+    speed: float = const.low_speed
+    finished: bool = False  # Flag pour fin de course
+    last_turn_direction = 0
 
     def reset(self) -> None:
         self.steer_dir = 0.0
@@ -55,20 +55,27 @@ class LineFollowerLogic:
         # Cas : aucun capteur
         # -------------------------
         if not active:
-            steer = self.steer_dir
-            self.speed = const.low_speed
-            print(f"[LineFollower] active={active}")
-
+            if self.last_turn_direction != 0:
+                steer = (
+                    self.last_turn_direction * const.line_follower_is_lost_turn_angle
+                )
+            else:
+                steer = self.steer_dir
+                self.speed = const.low_speed
+                print(f"[LineFollower] active={active}")
 
         else:
             # position moyenne de la ligne
             position = sum(active) / len(active)
-            #print(f"[LineFollower] active={active}, position={position:.2f}")
+            # print(f"[LineFollower] active={active}, position={position:.2f}")
             # normalisation entre -1 et 1
             if position == -2 or position == 2:
                 steer = position / 2 * const.line_follower_max_turn_angle
             else:
                 steer = position / 2 * const.line_follower_med_turn_angle
+
+            if position != 0:
+                self.last_turn_direction = position / abs(position)
 
             # vitesse selon stabilité
             if abs(steer) < 0.2:
@@ -84,5 +91,5 @@ class LineFollowerLogic:
             )
 
         self.steer_dir = steer
-        #print(f"[LineFollower] line={lf}, steer={steer:.2f}, speed={self.speed:.2f}")
+        # print(f"[LineFollower] line={lf}, steer={steer:.2f}, speed={self.speed:.2f}")
         return self.speed, self.steer_dir
