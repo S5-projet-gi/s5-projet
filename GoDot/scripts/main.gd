@@ -3,6 +3,7 @@ extends Node3D
 @onready var le_ip_address: LineEdit = $GridContainer/le_IpAdress
 @onready var btn_connect: Button = $GridContainer/btn_Connect
 @onready var lb_status: Label = $GridContainer/lb_ConnectionStatusPackets
+@export_file var level_path
 
 var vehicle_body: Node3D = null
 var current_velocity: float = 0.0
@@ -48,7 +49,7 @@ func _on_connect_pressed() -> void:
 
 	btn_connect.disabled = true
 	Network.connect_to_ip(le_ip_address.text)
-
+	
 func _on_check_box_toggled(toggled_on: bool) -> void:
 	le_ip_address.editable = !toggled_on
 	if toggled_on:
@@ -69,3 +70,9 @@ func _on_network_status_changed(text: String) -> void:
 func _on_network_state_changed(state: Network.NetworkState) -> void:
 	# Keep UI in sync with internal state if needed later
 	pass
+	
+func _on_btn_next_lv_pressed() -> void:
+	if level_path == null:
+		return
+	get_tree().change_scene_to_file(level_path)
+	#"res://level_2.tscn"
