@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://cp202pm1s1eic" path="res://scripts/ultrasonic.gd" id="2_h2yge"]
 [ext_resource type="Script" uid="uid://b6j72rdvpq0yp" path="res://scripts/camera_controller.gd" id="3_camera"]
 [ext_resource type="PackedScene" uid="uid://difir3bb2pwv4" path="res://assets/parcours.blend" id="5_lquwl"]
-[ext_resource type="Script" uid="uid://708xm2076abu" path="res://scripts/move.gd" id="6_5vw27"]
+[ext_resource type="Script" uid="uid://d0qe8d6q8ghfv" path="res://scripts/move.gd" id="6_5vw27"]
 [ext_resource type="PackedScene" uid="uid://dw8264gchc35g" path="res://assets/obstacle.blend" id="7_272bh"]
 [ext_resource type="PackedScene" uid="uid://xroxh5wjbwp6" path="res://line_follower_sensor.tscn" id="9_a0528"]
 

@@ -9,7 +9,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	print("SSS Read Process: ", line_follower_array)
+	print("Read Line: ", line_follower_array)
 	pass
 
 func _on_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):	

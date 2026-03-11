@@ -1,7 +1,7 @@
 extends CharacterBody3D
 
-const VEHICLE_SPEED = 30.0
-const ROTATION_SPEED = 2.0
+const VEHICLE_SPEED = 20.0
+const ROTATION_SPEED = 1
 
 # Variables réseau
 var current_velocity := 0.0
@@ -25,7 +25,7 @@ func _physics_process(delta: float) -> void:
 		velocity.x = global_move_dir.x
 		velocity.z = global_move_dir.z
 		
-		print("DEBUG move_dir=", move_direction, " global=", global_move_dir, " velocity=", velocity, " rot=", rotation.y)
+		#print("DEBUG move_dir=", move_direction, " global=", global_move_dir, " velocity=", velocity, " rot=", rotation.y)
 		
 		# Déplacement avec collisions
 		move_and_slide()
