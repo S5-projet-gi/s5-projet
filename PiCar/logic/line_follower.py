@@ -10,11 +10,16 @@ class LineFollowerLogic:
     speed: float = const.low_speed
     finished: bool = False  # Flag pour fin de course
     last_turn_direction = 0
+    finding_line: bool = False
 
     def reset(self) -> None:
         self.steer_dir = 0.0
         self.speed = const.low_speed
         self.finished = False  # Reset le flag aussi
+        self.finding_line = False
+
+    def start_finding_line(self) -> None:
+        self.finding_line = True
 
     def update(
         self,
@@ -32,6 +37,15 @@ class LineFollowerLogic:
 
         if len(lf) != 5:
             raise ValueError("line_follower_array must have 5 elements")
+
+        # Mode: chercher la ligne après wall_avoidance
+        if self.finding_line:
+            if any(lf):
+                self.finding_line = False
+            else:
+                self.speed = const.mid_speed
+                self.steer_dir = 0.0
+                return self.speed, self.steer_dir
 
         # ordre : [left, mid-left, middle, mid-right, right]
         weights = [-2, -1, 0, 1, 2]
