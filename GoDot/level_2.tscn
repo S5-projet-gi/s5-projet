@@ -1,8 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://dy5h0kjskds0h"]
+[gd_scene load_steps=18 format=3 uid="uid://dd6eqtycqli0b"]
 
 [ext_resource type="Script" uid="uid://tq58jihq45r4" path="res://scripts/main.gd" id="1_7dov7"]
 [ext_resource type="Script" uid="uid://b6j72rdvpq0yp" path="res://scripts/camera_controller.gd" id="1_7j8ne"]
-[ext_resource type="Script" uid="uid://708xm2076abu" path="res://scripts/move.gd" id="4_15wb7"]
+[ext_resource type="Script" uid="uid://d0qe8d6q8ghfv" path="res://scripts/move.gd" id="4_15wb7"]
 [ext_resource type="PackedScene" uid="uid://xroxh5wjbwp6" path="res://line_follower_sensor.tscn" id="5_eoq84"]
 [ext_resource type="Script" uid="uid://cp202pm1s1eic" path="res://scripts/ultrasonic.gd" id="6_yl73a"]
 [ext_resource type="PackedScene" uid="uid://dmimaosocfber" path="res://assets/pycar.blend" id="7_xbcdb"]

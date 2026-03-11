@@ -88,9 +88,9 @@ func _update_network_fsm(delta: float) -> void:
 				# Receive packets
 				while socket.get_available_packet_count() > 0:
 					data_received = JSON.parse_string(socket.get_packet().get_string_from_utf8())
-					print(data_received)
-					if data_received == null:
-						print("Error while parsing received string")
+					#print("Recu: ", data_received)
+					#if data_received == null:
+						#print("Error while parsing received string")
 					if data_received.get("type") == "control":
 						data_to_send["velocity"] = data_received.get("speed", 0.0)
 						data_to_send["direction"] = data_received.get("steer_dir", 0.0)
@@ -102,7 +102,9 @@ func _update_network_fsm(delta: float) -> void:
 					var distance = 100
 					if ultrasonic_node and ultrasonic_node.has_method("get_distance"):
 						distance = ultrasonic_node.get_distance()
-						print("Ultrasonic: ", ultrasonic_node.get_distance())
+
+					#print("Ultrasonic: ", ultrasonic_node.get_distance())
+
 					var line_follower_node = _get_line_follower_node()
 					var line_follower_array: Array[int] = [0, 0, 0, 0, 0]
 					if line_follower_node:
@@ -111,7 +113,7 @@ func _update_network_fsm(delta: float) -> void:
 							line_follower_array.append(int(value))
 					
 					var json_data = JSON.stringify({ "type": "sensor", "data": { "line_follower": line_follower_array, "distance": distance }}).to_utf8_buffer()
-					print("SSS GODOT SENDING: type=sensor, line_follower=", line_follower_array, " distance=", distance)
+					print("GODOT SENDING: type=sensor, line_follower=", line_follower_array, " distance=", distance)
 					socket.send(json_data)
 					send_timer = 0.0
 				else:

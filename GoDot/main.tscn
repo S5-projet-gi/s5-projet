@@ -45,7 +45,7 @@ data = PackedVector3Array(0, -0.4209, -1, 1, 1, -1, 0, 1, -1, 0, -0.4209, -1, 1,
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_eka3w")
-level_path = "uid://dy5h0kjskds0h"
+level_path = "uid://dd6eqtycqli0b"
 
 [node name="Floor" type="CSGBox3D" parent="."]
 transform = Transform3D(7.3293295, 0, 0, 0, 0.70778716, 0, 0, 0, 5.60168, -22.67161, -1.4551455, 3.5763829)

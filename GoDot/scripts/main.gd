@@ -17,9 +17,9 @@ func _ready() -> void:
 	
 	# Find the vehicle body to control recursively
 	vehicle_body = _find_vehicle_body()
-	print("Vehicle body found: ", vehicle_body)
+	#print("Vehicle body found: ", vehicle_body)
 	
-	print("Allo")
+	#print("Allo")
 
 func _find_vehicle_body() -> Node3D:
 	# Try to find pycar by name first
@@ -27,13 +27,13 @@ func _find_vehicle_body() -> Node3D:
 	if pycar:
 		return pycar
 	
-	print("No pycar found!")
+	#rint("No pycar found!")
 	return null
 
 func _process(delta: float) -> void:
 	if Network.is_network_connected():
 		if vehicle_body == null:
-			print("DEBUG: vehicle_body is null")
+			#print("DEBUG: vehicle_body is null")
 			return
 			
 
