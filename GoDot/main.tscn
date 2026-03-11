@@ -192,7 +192,7 @@ script = ExtResource("6_5vw27")
 transform = Transform3D(9.927306e-07, 0, 15.915414, 0, 14.963355, 0, 22.711039, 0, -6.956847e-07, 2.935032, -0.79259735, 0.019834518)
 
 [node name="sensor_array" parent="pycar2/PiCar#line_follower_sensor" index="0"]
-transform = Transform3D(0.9999998, 0, 1.8626434e-09, 0, 0.05840264, 0, 7.1054274e-15, 0, 0.9999999, 0, 0, 0)
+transform = Transform3D(1, 0, -7.105428e-15, 0, 1, 0, 7.105428e-15, 0, 1, 0, 0, 0)
 collision_layer = 2
 
 [node name="Ultrasonic" type="RayCast3D" parent="pycar2"]

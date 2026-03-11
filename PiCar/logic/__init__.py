@@ -42,7 +42,6 @@ class Logic:
                     speed, steer_dir, done = self.wall_avoidance.update(delta)
                     if done:
                         self.line_follower.reset()
-                        self.line_follower.start_finding_line()
                 else:
                     speed, steer_dir = self.line_follower.update(
                         delta=delta,
