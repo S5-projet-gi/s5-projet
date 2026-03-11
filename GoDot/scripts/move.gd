@@ -1,7 +1,7 @@
 extends CharacterBody3D
 
 const VEHICLE_SPEED = 20.0
-const ROTATION_SPEED = 1
+const ROTATION_SPEED = 4
 
 # Variables réseau
 var current_velocity := 0.0
