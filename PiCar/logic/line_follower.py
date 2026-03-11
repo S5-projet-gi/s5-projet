@@ -65,7 +65,10 @@ class LineFollowerLogic:
             position = sum(active) / len(active)
             #print(f"[LineFollower] active={active}, position={position:.2f}")
             # normalisation entre -1 et 1
-            steer = position / 2
+            if position == -2 or position == 2:
+                steer = position / 2 * const.line_follower_max_turn_angle
+            else:
+                steer = position / 2 * const.line_follower_med_turn_angle
 
             # vitesse selon stabilité
             if abs(steer) < 0.2:

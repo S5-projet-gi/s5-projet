@@ -4,6 +4,7 @@ import time
 from control import Control
 from logic.line_follower import LineFollowerLogic
 from logic.wall_avoidance import WallAvoidanceController
+import logic.const as const
 
 
 class Logic:
@@ -32,7 +33,7 @@ class Logic:
                 distance = self.control.distance()
 
                 # Trigger wall avoidance when distance <= 3
-                if distance > 0 and distance <= 3:
+                if distance > 0 and distance <= const.wall_avoid_detection_distance:
                     if not self.wall_avoidance.state.active:
                         self.wall_avoidance.trigger()
                         print(f"[Logic] Wall avoidance triggered! distance={distance}")

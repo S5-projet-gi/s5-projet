@@ -54,7 +54,7 @@ class WallAvoidanceController:
             speed = const.wall_avoid_turn_speed
             # Simulate rotation complete after a moment (simplified)
             self.state.distance_traveled += delta
-            if self.state.distance_traveled > 0.5:  # 0.5s to rotate
+            if self.state.distance_traveled > 0.7:  # 0.5s to rotate
                 self.state.state = AvoidanceState.FORWARD
                 self.state.distance_traveled = 0.0
 
@@ -69,10 +69,10 @@ class WallAvoidanceController:
 
         elif self.state.state == AvoidanceState.ROTATE_RIGHT:
             # Turn right (back to original direction)
-            steer_dir = -const.wall_avoid_rotation_angle * const.wall_avoid_rotation_angle_bonus
+            steer_dir = -const.wall_avoid_rotation_angle
             speed = const.wall_avoid_turn_speed
             self.state.distance_traveled += delta
-            if self.state.distance_traveled > 0.5:  # 0.5s to rotate
+            if self.state.distance_traveled > 1.3:  # 0.5s to rotate
                 self.state.active = False
                 self.state.state = AvoidanceState.DONE
                 self.state.distance_traveled = 0.0

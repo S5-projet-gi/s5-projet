@@ -1,32 +1,26 @@
 extends CharacterBody3D
 
 const VEHICLE_SPEED = 20.0
-const ROTATION_SPEED = 4
+const WHEELBASE = 10
+const LOCAL_FORWARD = Vector3.LEFT
 
-# Variables réseau
-var current_velocity := 0.0
-var current_steer_dir := 0.0
 
 func _physics_process(delta: float) -> void:
 	if Network.is_network_connected():
 		# Récupère les valeurs réseau
-		current_velocity = Network.data_to_send.get("velocity", 0.0)
-		current_steer_dir = Network.data_to_send.get("direction", 0.0)
-		
-		# Rotation accumulée (comme avant)
-		rotation.y += -current_steer_dir * ROTATION_SPEED * delta
+		var velocity_input: float = Network.data_to_send.get("velocity", 0.0)
+		var direction_input = deg_to_rad(Network.data_to_send.get("direction", 0.0))
 
-		# Déplacement local (comme avant)
-		var move_direction = Vector3.ZERO
-		move_direction.x = current_velocity * VEHICLE_SPEED
-		
-		# Transformer le mouvement local en mouvement global et le mettre en velocity
-		var global_move_dir = transform.basis * move_direction
-		velocity.x = global_move_dir.x
-		velocity.z = global_move_dir.z
-		
-		#print("DEBUG move_dir=", move_direction, " global=", global_move_dir, " velocity=", velocity, " rot=", rotation.y)
-		
+		# Convention locale du modèle: avance = vitesse négative.
+		var signed_speed = -velocity_input * VEHICLE_SPEED
+
+		# Bicycle model: yaw_rate = v / L * tan(delta)
+		if abs(signed_speed) > 0.001 and abs(direction_input) > 0.001:
+			rotate_y((signed_speed / WHEELBASE) * tan(direction_input) * delta)
+
+		var heading = (global_transform.basis * LOCAL_FORWARD).normalized()
+		velocity = heading * signed_speed
+
 		# Déplacement avec collisions
 		move_and_slide()
 	else:

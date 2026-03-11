@@ -33,7 +33,7 @@ func _find_vehicle_body() -> Node3D:
 func _process(delta: float) -> void:
 	if Network.is_network_connected():
 		if vehicle_body == null:
-			#print("DEBUG: vehicle_body is null")
+			# print("DEBUG: vehicle_body is null")
 			return
 			
 
