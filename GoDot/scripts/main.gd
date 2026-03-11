@@ -35,19 +35,7 @@ func _process(delta: float) -> void:
 			print("DEBUG: vehicle_body is null")
 			return
 			
-		current_velocity = Network.data_to_send["velocity"]
-		current_steer_dir = Network.data_to_send["direction"]
-		print("Applying movement: velocity=", current_velocity, " steer_dir=", current_steer_dir)
-		
-		# Apply movement
-		var move_direction = Vector3.ZERO
-		move_direction.x = -current_velocity * VEHICLE_SPEED
-		
-		# Apply rotation
-		vehicle_body.rotation.y += -current_steer_dir * ROTATION_SPEED * delta
-		
-		# Move the vehicle
-		vehicle_body.global_position += vehicle_body.transform.basis * move_direction * delta
+
 
 func _on_quit_pressed() -> void:
 	Network.disconnect_network()

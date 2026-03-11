@@ -9,10 +9,12 @@ class LineFollowerLogic:
     def __init__(self) -> None:
         self.steer_dir: float = 0.0
         self.speed: float = const.low_speed
+        self.finished: bool = False  # Flag pour fin de course
 
     def reset(self) -> None:
         self.steer_dir = 0.0
         self.speed = const.low_speed
+        self.finished = False  # Reset le flag aussi
 
     def update(
         self,
@@ -22,6 +24,11 @@ class LineFollowerLogic:
 
         lf = list(line_follower_array)
         print(f"[LineFollower] input lf={lf}, types={[type(x).__name__ for x in lf]}")
+
+        # Si déjà terminé, rester bloqué à 0,0
+        if self.finished:
+            print("[LineFollower] FINISHED - waiting for reset")
+            return 0.0, 0.0
 
         if len(lf) != 5:
             raise ValueError("line_follower_array must have 5 elements")
@@ -35,11 +42,13 @@ class LineFollowerLogic:
                 active.append(weights[i])
 
         # -------------------------
-        # Cas spécial : tous actifs
+        # Cas spécial : tous actifs = FIN DE COURSE
         # -------------------------
         if len(active) == 5:
+            self.finished = True  # Marquer comme terminé
             self.speed = 0.0
             self.steer_dir = 0.0
+            print("[LineFollower] ALL SENSORS ACTIVE - FINISHED!")
             return self.speed, self.steer_dir
 
         # -------------------------

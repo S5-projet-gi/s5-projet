@@ -9,13 +9,13 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	print("SSS Read Process: ", line_follower_array)
 	pass
 
 func _on_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):	
 	# Vérifier avec bitwise AND : body doit être sur une layer que le sensor scanne
 	if body.collision_layer & collision_mask:
 		line_follower_array[local_shape_index] = 1
-	print(line_follower_array)
 
 
 func _on_body_shape_exited(body_rid, body, body_shape_index, local_shape_index):

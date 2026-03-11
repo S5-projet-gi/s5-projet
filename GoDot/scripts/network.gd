@@ -109,7 +109,7 @@ func _update_network_fsm(delta: float) -> void:
 						line_follower_array = line_follower_node.get_line_follower_array()
 					
 					var json_data = JSON.stringify({ "type": "sensor", "data": { "line_follower": line_follower_array, "distance": distance }}).to_utf8_buffer()
-					print("GODOT SENDING: type=sensor, line_follower=", line_follower_array, " distance=", distance)
+					print("SSS GODOT SENDING: type=sensor, line_follower=", line_follower_array, " distance=", distance)
 					socket.send(json_data)
 					send_timer = 0.0
 				else:
