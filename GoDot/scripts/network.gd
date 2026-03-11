@@ -102,11 +102,13 @@ func _update_network_fsm(delta: float) -> void:
 					var distance = 100
 					if ultrasonic_node and ultrasonic_node.has_method("get_distance"):
 						distance = ultrasonic_node.get_distance()
-					print("Ultrasonic: ", ultrasonic_node.get_distance())
+						print("Ultrasonic: ", ultrasonic_node.get_distance())
 					var line_follower_node = _get_line_follower_node()
-					var line_follower_array = [0, 0, 0, 0, 0]
+					var line_follower_array: Array[int] = [0, 0, 0, 0, 0]
 					if line_follower_node:
-						line_follower_array = line_follower_node.get_line_follower_array()
+						line_follower_array.clear()
+						for value in line_follower_node.get_line_follower_array():
+							line_follower_array.append(int(value))
 					
 					var json_data = JSON.stringify({ "type": "sensor", "data": { "line_follower": line_follower_array, "distance": distance }}).to_utf8_buffer()
 					print("SSS GODOT SENDING: type=sensor, line_follower=", line_follower_array, " distance=", distance)

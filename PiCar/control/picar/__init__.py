@@ -51,4 +51,3 @@ class PiCarControl(Control):
     def line(self) -> list[int]:
         """Measure the luminance of the ground"""
         return self._line.line
-        raise NotImplementedError("This method must be implemented by a subclass")
