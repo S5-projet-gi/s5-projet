@@ -83,9 +83,3 @@ class LineFollowerLogic:
         self.steer_dir = steer
         #print(f"[LineFollower] line={lf}, steer={steer:.2f}, speed={self.speed:.2f}")
         return self.speed, self.steer_dir
-
-    @staticmethod
-    def _average(values: Deque[float]) -> float:
-        if not values:
-            return 0.0
-        return sum(values) / len(values)

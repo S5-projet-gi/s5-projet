@@ -1,5 +1,4 @@
 import asyncio
-import json
 import time
 
 from control import Control
@@ -43,29 +42,9 @@ class Logic:
                     if done:
                         self.line_follower.reset()
                 else:
-                    sensors = getattr(self.control, "sensors", {})
-                    line_follower_array = sensors.get("line_follower", [0, 0, 0, 0, 0])
-
-                    # Parse si c'est une string JSON
-                    if isinstance(line_follower_array, str):
-                        try:
-                            line_follower_array = json.loads(line_follower_array)
-                        except json.JSONDecodeError:
-                            line_follower_array = [0, 0, 0, 0, 0]
-
-                    if (
-                        not isinstance(line_follower_array, (list, tuple))
-                        or len(line_follower_array) != 5
-                    ):
-                        line_follower_array = [0, 0, 0, 0, 0]
-                    else:
-                        line_follower_array = [
-                            1 if bool(v) else 0 for v in line_follower_array
-                        ]
-
                     speed, steer_dir = self.line_follower.update(
                         delta=delta,
-                        line_follower_array=line_follower_array,
+                        line_follower_array=self.control.line(),
                     )
 
                 self.control.move(speed)

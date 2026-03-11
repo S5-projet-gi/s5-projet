@@ -134,15 +134,48 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="parcours/Parcours Picar/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_7mycd")
 
-[node name="obstacle" parent="parcours" instance=ExtResource("7_272bh")]
-transform = Transform3D(-2.6789867e-05, 0, 139.94492, 0, 94.28931, 0, -612.88074, 0, -6.117185e-06, -1086.9852, 18.877197, 909.82477)
+[node name="obstacle2" parent="parcours" instance=ExtResource("7_272bh")]
+transform = Transform3D(-1.8765211e-05, 0, 218.906, 0, 150, 0, -429.298, 0, -9.5686855e-06, -503.6573, 23.686466, 571.3032)
 
-[node name="Cube" parent="parcours/obstacle" index="0"]
+[node name="Cube" parent="parcours/obstacle2" index="0"]
 transform = Transform3D(0.73262805, 0, -1.7763568e-14, 0, 0.19490652, 0, 3.5527137e-14, 0, 1.4894522, 0, 0, 0)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="parcours/obstacle/Cube" index="0"]
+[node name="StaticBody3D" type="StaticBody3D" parent="parcours/obstacle2/Cube" index="0"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="parcours/obstacle/Cube/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="parcours/obstacle2/Cube/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_272bh")
+
+[node name="obstacle3" parent="parcours" instance=ExtResource("7_272bh")]
+transform = Transform3D(-1.8765211e-05, 0, 218.90604, 0, 150, 0, -429.29807, 0, -9.568686e-06, -665.28723, 23.686466, 914.45306)
+
+[node name="Cube" parent="parcours/obstacle3" index="0"]
+transform = Transform3D(0.73262805, 0, -1.7763568e-14, 0, 0.19490652, 0, 3.5527137e-14, 0, 1.4894522, 0, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="parcours/obstacle3/Cube" index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="parcours/obstacle3/Cube/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_272bh")
+
+[node name="obstacle4" parent="parcours" instance=ExtResource("7_272bh")]
+transform = Transform3D(-429.29807, 0, -1.9137373e-05, 0, 150, 0, 3.753043e-05, 0, -218.90604, 181.13013, 23.686466, -567.975)
+
+[node name="Cube" parent="parcours/obstacle4" index="0"]
+transform = Transform3D(0.73262805, 0, -1.7763568e-14, 0, 0.19490652, 0, 3.5527137e-14, 0, 1.4894522, 0, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="parcours/obstacle4/Cube" index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="parcours/obstacle4/Cube/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_272bh")
+
+[node name="obstacle5" parent="parcours" instance=ExtResource("7_272bh")]
+transform = Transform3D(-429.29807, 0, -1.9137373e-05, 0, 150, 0, 3.753043e-05, 0, -218.90604, -796.3363, 23.686466, -229.57864)
+
+[node name="Cube" parent="parcours/obstacle5" index="0"]
+transform = Transform3D(0.73262805, 0, -1.7763568e-14, 0, 0.19490652, 0, 3.5527137e-14, 0, 1.4894522, 0, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="parcours/obstacle5/Cube" index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="parcours/obstacle5/Cube/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_272bh")
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -194,6 +227,9 @@ transform = Transform3D(0.9582278, 0.09464691, -0.26989156, 0, 0.9436566, 0.3309
 [connection signal="area_entered" from="pycar2/PiCar#line_follower_sensor/sensor_array" to="." method="_on_sensor_array_area_entered"]
 
 [editable path="parcours"]
-[editable path="parcours/obstacle"]
+[editable path="parcours/obstacle2"]
+[editable path="parcours/obstacle3"]
+[editable path="parcours/obstacle4"]
+[editable path="parcours/obstacle5"]
 [editable path="pycar2/PiCar#line_follower_sensor"]
 [editable path="pycar2/pycar"]
