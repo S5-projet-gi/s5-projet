@@ -1,19 +1,18 @@
 import asyncio
 import time
 
+import const
 from control import Control
-from logic.line_follower import LineFollowerLogic
-from logic.wall_avoidance import WallAvoidanceController
-import logic.const as const
+from logic.behaviour import BehaviourFSM
 
 
 class Logic:
     control: Control
+    fsm: BehaviourFSM
 
     def __init__(self, control: Control):
         self.control = control
-        self.line_follower = LineFollowerLogic()
-        self.wall_avoidance = WallAvoidanceController()
+        self.fsm = BehaviourFSM()
 
     def __del__(self):
         self.control.stop()
@@ -34,22 +33,13 @@ class Logic:
 
                 # Trigger wall avoidance when distance <= 3
                 if distance > 0 and distance <= const.wall_avoid_detection_distance:
-                    if not self.wall_avoidance.state.active:
-                        self.wall_avoidance.trigger()
+                    if self.fsm.to_wall_avoidance():
                         print(f"[Logic] Wall avoidance triggered! distance={distance}")
 
-                if self.wall_avoidance.state.active:
-                    speed, steer_dir, done = self.wall_avoidance.update(delta)
-                    if done:
-                        self.line_follower.reset()
-                else:
-                    speed, steer_dir = self.line_follower.update(
-                        delta=delta,
-                        line_follower_array=self.control.line(),
-                    )
-
-                self.control.move(speed)
-                self.control.turn(steer_dir)
+                self.fsm.tick(
+                    delta=delta,
+                    control=self.control,
+                )
 
                 await asyncio.sleep(0.01)
             except Exception as e:

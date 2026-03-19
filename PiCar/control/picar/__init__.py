@@ -1,3 +1,4 @@
+import const
 from control import Control
 
 
@@ -22,6 +23,7 @@ class PiCarControl(Control):
         self._ultrasonic = self.PiCarUltrasonic()
         self._back_wheels = self.Back_Wheels(debug=True)
         self._front_wheels = self.Front_Wheels(debug=True)
+        self._front_wheels._turning_max = const.max_turn_angle
 
     def move(self, speed):
         """Set the wheel speeds"""

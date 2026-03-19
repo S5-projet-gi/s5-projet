@@ -1,4 +1,7 @@
-class Control:
+from typing import Protocol
+
+
+class Control(Protocol):
     def __init__(self):
         raise NotImplementedError("This method must be implemented by a subclass")
 

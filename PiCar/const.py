@@ -1,3 +1,16 @@
+picar = {
+    "max_turn_angle": 45,  # degrees
+    "wheelbase": 14,  # centimeters
+    "wheel_spacing": 11,  # centimeters
+    "wheel_diameter": 6.5,  # centimeters
+}
+
+two_point_turn = {
+    "distance": picar["wheelbase"] * 2.2,
+    "turn_angle": picar["max_turn_angle"],
+}
+
+
 max_speed: float = 0.1
 mid_speed: float = 0.1
 low_speed: float = 0.1
@@ -5,7 +18,6 @@ accel_rate: float = 1.2
 
 line_follower_med_turn_angle: float = 60
 line_follower_max_turn_angle: float = 75
-line_follower_is_lost_turn_angle: float = 80
 
 dir_buffer_size: int = 16
 
