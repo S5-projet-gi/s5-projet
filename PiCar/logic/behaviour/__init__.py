@@ -7,8 +7,6 @@ from sharp_turn import SharpTurnState
 from standby import StandbyState
 from wall_avoidance import WallAvoidanceState
 
-from control import Control
-
 
 class BehaviourFSM:
     """
@@ -50,9 +48,9 @@ class BehaviourFSM:
     def tick(
         self,
         delta: float,
-        control: Control,
-    ) -> None:
-        return self.state.tick(delta=delta, control=control, fsm=self)
+        sensors: Sensors,
+    ) -> Movement | None:
+        return self.state.tick(delta=delta, sensors=sensors, fsm=self)
 
 
 class BehaviourState(Protocol):
@@ -62,7 +60,25 @@ class BehaviourState(Protocol):
     def tick(
         self,
         delta: float,
-        control: Control,
+        sensors: Sensors,
         fsm: BehaviourFSM,
-    ) -> None:
+    ) -> Movement | None:
         raise NotImplementedError("This method must be implemented by a subclass")
+
+
+class Sensors:
+    line: list[int]
+    distance: float
+
+    def __init__(self, line: list[int], distance: float) -> None:
+        self.line = line
+        self.distance = distance
+
+
+class Movement:
+    speed: float
+    angle: float | None
+
+    def __init__(self, speed: float, angle: float | None) -> None:
+        self.speed = speed
+        self.angle = angle

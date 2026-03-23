@@ -1,9 +1,8 @@
 import asyncio
 import time
 
-import const
 from control import Control
-from logic.behaviour import BehaviourFSM
+from logic.behaviour import BehaviourFSM, Sensors
 
 
 class Logic:
@@ -29,17 +28,15 @@ class Logic:
                 delta = now - last_time
                 last_time = now
 
-                distance = self.control.distance()
+                sensors = Sensors(self.control.line(), self.control.distance())
+                result = self.fsm.tick(delta, sensors)
+                while result is None:
+                    result = self.fsm.tick(delta, sensors)
 
-                # Trigger wall avoidance when distance <= 3
-                if distance > 0 and distance <= const.wall_avoid_detection_distance:
-                    if self.fsm.to_wall_avoidance():
-                        print(f"[Logic] Wall avoidance triggered! distance={distance}")
-
-                self.fsm.tick(
-                    delta=delta,
-                    control=self.control,
-                )
+                # TODO: Make progressive acceleration
+                self.control.move(result.speed)
+                if result.angle is not None:
+                    self.control.turn(result.angle)
 
                 await asyncio.sleep(0.01)
             except Exception as e:

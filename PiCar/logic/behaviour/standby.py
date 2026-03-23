@@ -1,8 +1,4 @@
-from __future__ import annotations
-
-from control import Control
-
-from . import BehaviourFSM
+from . import BehaviourFSM, Movement, Sensors
 
 
 class StandbyState:
@@ -16,8 +12,7 @@ class StandbyState:
     def tick(
         self,
         delta: float,
-        control: Control,
+        sensors: Sensors,
         fsm: BehaviourFSM,
-    ) -> None:
-        control.move(0)
-        pass
+    ) -> Movement | None:
+        return Movement(0, None)

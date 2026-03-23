@@ -1,9 +1,6 @@
-from __future__ import annotations
-
 import const
-from control import Control
 
-from . import BehaviourFSM
+from . import BehaviourFSM, Movement, Sensors
 
 
 class LineFollowState:
@@ -22,27 +19,22 @@ class LineFollowState:
     def tick(
         self,
         delta: float,
-        control: Control,
+        sensors: Sensors,
         fsm: BehaviourFSM,
-    ) -> None:
-        lf = list(control.line())
-        print(f"[LineFollower] input lf={lf}, types={[type(x).__name__ for x in lf]}")
+    ) -> Movement | None:
+        if (
+            sensors.distance > 0
+            and sensors.distance <= const.wall_avoidance["trigger_distance"]
+        ):
+            if fsm.to_wall_avoidance():
+                print(f"[Logic] Wall avoidance triggered! distance={sensors.distance}")
 
-        if len(lf) != 5:
-            raise ValueError("line_follower_array must have 5 elements")
-
-        # ordre : [left, mid-left, middle, mid-right, right]
-        weights = [-2, -1, 0, 1, 2]
-
-        active = []
-        for i in range(5):
-            if lf[i]:
-                active.append(weights[i])
+        active_line = [i - 2 for i in range(5) if sensors.line[i]]
 
         # -------------------------
         # Cas spécial : tous actifs = FIN DE COURSE
         # -------------------------
-        if len(active) == 5:
+        if len(active_line) == 5:
             print("[LineFollower] ALL SENSORS ACTIVE - FINISHED!")
             fsm.to_standby()
             return
@@ -50,22 +42,19 @@ class LineFollowState:
         # -------------------------
         # Cas : aucun capteur
         # -------------------------
-        if not active:
+        if not active_line:
             if self.last_turn_direction != 0:
                 print(
                     f"[LineFollower] LOST - last turn direction={self.last_turn_direction}"
                 )
-                control.turn(self.last_turn_direction * const.picar["max_turn_angle"])
-                control.move(const.low_speed)
                 fsm.to_sharp_turn()
-                return
+                return None
 
-            control.move(const.low_speed)
             print("[LineFollower] LOST - moving forward")
-            return
+            return Movement(const.low_speed, 0)
 
         # position moyenne de la ligne
-        position = sum(active) / len(active)
+        position = sum(active_line) / len(active_line)
         # print(f"[LineFollower] active={active}, position={position:.2f}")
         # normalisation entre -1 et 1
         if position == -2 or position == 2:
@@ -78,7 +67,6 @@ class LineFollowState:
 
         # vitesse selon stabilité
         if abs(steer) < 0.2:
-            control.move(const.mid_speed)
+            return Movement(const.mid_speed, steer)
         else:
-            control.move(const.low_speed)
-        control.turn(steer)
+            return Movement(const.low_speed, steer)

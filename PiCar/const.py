@@ -10,6 +10,19 @@ two_point_turn = {
     "turn_angle": picar["max_turn_angle"],
 }
 
+wall_avoidance = {
+    "trigger_distance": 3,
+    "first_speed": -0.1,
+    "first_time": 2,
+    "first_angle": 45,
+    "second_speed": 0.1,
+    "second_time": 2,
+    "second_angle": 0,
+    "third_speed": 0.1,
+    "third_time": 2,
+    "third_angle": 45,
+}
+
 
 max_speed: float = 0.1
 mid_speed: float = 0.1
@@ -20,10 +33,3 @@ line_follower_med_turn_angle: float = 60
 line_follower_max_turn_angle: float = 75
 
 dir_buffer_size: int = 16
-
-# Wall avoidance parameters
-wall_avoid_detection_distance: float = 3.0  # Distance threshold to trigger avoidance
-wall_avoid_rotation_angle: float = 85  # Angle to turn when avoiding (radians)
-wall_avoid_forward_distance: float = 0.3  # Distance to travel after turning
-wall_avoid_turn_speed: float = 0.05  # Speed when turning to avoid wall
-wall_avoid_forward_speed: float = 0.1  # Speed when moving forward to avoid wall

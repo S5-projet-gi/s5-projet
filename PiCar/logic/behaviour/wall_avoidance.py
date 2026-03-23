@@ -3,15 +3,14 @@ from __future__ import annotations
 from enum import Enum
 
 import const
-from control import Control
 
-from . import BehaviourFSM
+from . import BehaviourFSM, Movement, Sensors
 
 
 class AvoidancePhase(Enum):
-    ROTATE_LEFT = "rotate_left"
-    FORWARD = "forward"
-    ROTATE_RIGHT = "rotate_right"
+    FIRST = "first"
+    SECOND = "second"
+    THIRD = "third"
 
 
 class WallAvoidanceState:
@@ -19,37 +18,48 @@ class WallAvoidanceState:
     Dedicated wall-avoidance FSM state with integrated controller logic.
 
     Sequence:
-    1) Rotate left
-    2) Move forward
-    3) Rotate right
+    1) Rotate right backwards (point car left)
+    2) Move forward (skip wall)
+    3) Rotate right (reach line)
     4) Transition back to line follow
     """
 
-    phase: AvoidancePhase = AvoidancePhase.ROTATE_LEFT
-    distance_traveled: float = 0.0
+    phase: AvoidancePhase = AvoidancePhase.FIRST
+    distance_parcourue: float = 0.0
 
     def reset(self) -> None:
-        self.phase = AvoidancePhase.ROTATE_LEFT
-        self.distance_traveled = 0.0
+        self.phase = AvoidancePhase.FIRST
+        self.distance_parcourue = 0.0
 
     def tick(
         self,
         delta: float,
-        control: Control,
+        sensors: Sensors,
         fsm: BehaviourFSM,
-    ) -> None:
-        self.distance_traveled += delta
-        if self.distance_traveled > 1.3:
-            fsm.to_line_follow()
-            return
+    ) -> Movement | None:
+        self.distance_parcourue += delta
 
         match self.phase:
-            case AvoidancePhase.ROTATE_LEFT:
-                control.turn(const.wall_avoid_rotation_angle)
-                control.move(const.wall_avoid_turn_speed)
-            case AvoidancePhase.FORWARD:
-                control.turn(0)
-                control.move(const.wall_avoid_forward_speed)
-            case AvoidancePhase.ROTATE_RIGHT:
-                control.turn(-const.wall_avoid_rotation_angle)
-                control.move(const.wall_avoid_turn_speed)
+            case AvoidancePhase.FIRST:
+                if self.distance_parcourue >= const.wall_avoidance["first_time"]:
+                    self.phase = AvoidancePhase.SECOND
+                    self.distance_parcourue = 0.0
+                return Movement(
+                    const.wall_avoidance["first_speed"],
+                    const.wall_avoidance["first_angle"],
+                )
+            case AvoidancePhase.SECOND:
+                if self.distance_parcourue >= const.wall_avoidance["second_time"]:
+                    self.phase = AvoidancePhase.THIRD
+                    self.distance_parcourue = 0.0
+                return Movement(
+                    const.wall_avoidance["second_speed"],
+                    const.wall_avoidance["second_angle"],
+                )
+            case AvoidancePhase.THIRD:
+                if self.distance_parcourue >= const.wall_avoidance["third_time"]:
+                    fsm.to_line_follow()
+                return Movement(
+                    const.wall_avoidance["third_speed"],
+                    const.wall_avoidance["third_angle"],
+                )

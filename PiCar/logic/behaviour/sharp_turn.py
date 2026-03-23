@@ -1,8 +1,4 @@
-from __future__ import annotations
-
-from control import Control
-
-from . import BehaviourFSM
+from . import BehaviourFSM, Movement, Sensors
 
 
 class SharpTurnState:
@@ -20,8 +16,9 @@ class SharpTurnState:
     def tick(
         self,
         delta: float,
-        control: Control,
+        sensors: Sensors,
         fsm: BehaviourFSM,
-    ) -> None:
+    ) -> Movement | None:
         # TODO: Implement actual sharp-turn manoeuvre.
         fsm.to_line_follow()
+        return Movement(0.0, 0.0)
