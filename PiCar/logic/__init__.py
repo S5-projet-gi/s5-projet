@@ -40,7 +40,7 @@ class Logic:
                 decel_rate = 50.0 # on peut decel plus vite parce que ya le capteur de ligne qui block la bille
 
                 rate = accel_rate if target_speed > current_speed_cmd else decel_rate
-                current_speed_cmd = self.control.move_toward(current_speed_cmd, target_speed, rate * delta)
+                current_speed_cmd = self.control.move_toward(current_speed_cmd, target_speed, (rate * delta))
 
                 self.control.move(current_speed_cmd)
 
