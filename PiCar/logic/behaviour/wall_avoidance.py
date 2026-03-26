@@ -45,6 +45,8 @@ class WallAvoidanceState:
                 if self.distance_parcourue >= const.wall_avoidance["first_time"]:
                     self.phase = AvoidancePhase.SECOND
                     self.distance_parcourue = 0.0
+                    print(f"[WallAvoidance] Phase 1 complete, switching to phase 2")
+                print(f"[WallAvoidance] Phase 1 - distance_parcourue={self.distance_parcourue}")
                 return Movement(
                     const.wall_avoidance["first_speed"],
                     const.wall_avoidance["first_angle"],
@@ -53,6 +55,8 @@ class WallAvoidanceState:
                 if self.distance_parcourue >= const.wall_avoidance["second_time"]:
                     self.phase = AvoidancePhase.THIRD
                     self.distance_parcourue = 0.0
+                    print(f"[WallAvoidance] Phase 2 complete, switching to phase 3")
+                print(f"[WallAvoidance] Phase 2 - distance_parcourue={self.distance_parcourue}")
                 return Movement(
                     const.wall_avoidance["second_speed"],
                     const.wall_avoidance["second_angle"],
@@ -60,6 +64,8 @@ class WallAvoidanceState:
             case AvoidancePhase.THIRD:
                 if self.distance_parcourue >= const.wall_avoidance["third_time"]:
                     fsm.to_line_follow()
+                    print(f"[WallAvoidance] Phase 3 complete, switching to line follow")
+                print(f"[WallAvoidance] Phase 3 - distance_parcourue={self.distance_parcourue}")
                 return Movement(
                     const.wall_avoidance["third_speed"],
                     const.wall_avoidance["third_angle"],

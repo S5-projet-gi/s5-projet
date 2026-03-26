@@ -18,6 +18,24 @@ class PiCarLine:
         await asyncio.sleep(2)
 
         while True:
-            self.line = self.line_follower.read_digital()
-            print(f"[LineSensor] digital={self.line}")
+            try:
+                new_line = self.line_follower.read_digital()
+
+                if (
+                    isinstance(new_line, list)
+                    and len(new_line) == 5
+                    and all(value in (0, 1) for value in new_line)
+                ):
+                    self.line = new_line
+                    print(f"[LineSensor] digital={self.line}")
+                else:
+                    print(
+                        f"[LineSensor] invalid read ignored: {new_line}, keeping last={self.line}"
+                    )
+            except OSError as e:
+                print(f"[LineSensor] I2C read error ignored: {e}, keeping last={self.line}")
+            except Exception as e:
+                print(
+                    f"[LineSensor] unexpected read error ignored: {e}, keeping last={self.line}"
+                )
             await asyncio.sleep(0.03)

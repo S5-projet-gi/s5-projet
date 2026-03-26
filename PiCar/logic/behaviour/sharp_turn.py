@@ -41,6 +41,8 @@ class SharpTurnState:
                 if self.distance_parcourue >= const.two_point_turn["first_distance"]:
                     self.distance_parcourue = 0.0
                     self.phase = Turn90Phase.SECOND
+                    print(f"[TwoPointTurn] Phase 1 complete, switching to phase 2")
+                print(f"[TwoPointTurn] Phase 1 - distance_parcourue={self.distance_parcourue}")
                 return Movement(
                   const.two_point_turn["first_speed"],
                   const.two_point_turn["first_angle"],
@@ -49,6 +51,9 @@ class SharpTurnState:
                 if self.distance_parcourue >= const.two_point_turn["second_distance"]:
                     self.distance_parcourue = 0.0
                     fsm.to_line_follow()
+                    print(f"[TwoPointTurn] Phase 2 complete, switching to line follow")
+                print(f"[TwoPointTurn] Phase 2 - distance_parcourue={self.distance_parcourue}")
+
                 return Movement(
                     const.two_point_turn["second_speed"],
                     self.direction * const.two_point_turn["second_angle"],
