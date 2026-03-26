@@ -16,7 +16,7 @@ class Logic:
     def __del__(self):
         self.control.stop()
 
-    def move_toward(current: float, target: float, max_delta: float) -> float:
+    def move_toward(self, current: float, target: float, max_delta: float) -> float:
         if target > current + max_delta:
             return current + max_delta
         if target < current - max_delta:
