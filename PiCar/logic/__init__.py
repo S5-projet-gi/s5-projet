@@ -40,17 +40,18 @@ class Logic:
                 result = self.fsm.tick(delta, sensors)
                 while result is None:
                     result = self.fsm.tick(delta, sensors)
+                self.control.move(result.speed)
 
-                target_speed = result.speed
+                # target_speed = result.speed
 
-                accel_rate = 20.0
-                decel_rate = 50.0 # on peut decel plus vite parce que ya le capteur de ligne qui block la bille
+                # accel_rate = 20.0
+                # decel_rate = 50.0 # on peut decel plus vite parce que ya le capteur de ligne qui block la bille
 
-                rate = accel_rate if target_speed > current_speed_cmd else decel_rate
-                val = (rate * delta)
-                current_speed_cmd = int(self.move_toward(current_speed_cmd, target_speed, val))
+                # rate = accel_rate if target_speed > current_speed_cmd else decel_rate
+                # val = (rate * delta)
+                # current_speed_cmd = int(self.move_toward(current_speed_cmd, target_speed, val))
 
-                self.control.move(current_speed_cmd)
+                #self.control.move(current_speed_cmd)
 
                 if result.angle is not None:
                     self.control.turn(result.angle)
