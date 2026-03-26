@@ -25,6 +25,13 @@ class PiCarControl(Control):
         self._front_wheels = self.Front_Wheels(debug=const.picar["debug"])
         self._front_wheels._turning_max = const.picar["max_turn_angle"]
 
+    def move_toward(current: float, target: float, max_delta: float) -> float:
+        if target > current + max_delta:
+            return current + max_delta
+        if target < current - max_delta:
+            return current - max_delta
+        return target
+
     def move(self, speed):
         """Set the wheel speeds"""
         if speed >= 0:

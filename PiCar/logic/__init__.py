@@ -20,6 +20,7 @@ class Logic:
         # Wait for sensors to be initialized
         await asyncio.sleep(2)
 
+        current_speed_cmd = 0.0
         last_time = time.monotonic()
 
         while True:
@@ -33,8 +34,16 @@ class Logic:
                 while result is None:
                     result = self.fsm.tick(delta, sensors)
 
-                # TODO: Make progressive acceleration
-                self.control.move(result.speed)
+                target_speed = result.speed
+
+                accel_rate = 20.0
+                decel_rate = 50.0 # on peut decel plus vite parce que ya le capteur de ligne qui block la bille
+
+                rate = accel_rate if target_speed > current_speed_cmd else decel_rate
+                current_speed_cmd = self.control.move_toward(current_speed_cmd, target_speed, rate * delta)
+
+                self.control.move(current_speed_cmd)
+
                 if result.angle is not None:
                     self.control.turn(result.angle)
 
