@@ -56,5 +56,5 @@ class SharpTurnState:
 
                 return Movement(
                     const.two_point_turn["second_speed"],
-                    self.direction * const.two_point_turn["second_angle"],
+                    -self.direction * const.two_point_turn["second_angle"],
                 )
