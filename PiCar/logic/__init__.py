@@ -16,6 +16,13 @@ class Logic:
     def __del__(self):
         self.control.stop()
 
+    def move_toward(current: float, target: float, max_delta: float) -> float:
+        if target > current + max_delta:
+            return current + max_delta
+        if target < current - max_delta:
+            return current - max_delta
+        return target
+
     async def run(self):
         # Wait for sensors to be initialized
         await asyncio.sleep(2)
@@ -41,7 +48,7 @@ class Logic:
 
                 rate = accel_rate if target_speed > current_speed_cmd else decel_rate
                 val = (rate * delta)
-                current_speed_cmd = self.control.move_toward(current_speed_cmd, target_speed, val)
+                current_speed_cmd = self.move_toward(current_speed_cmd, target_speed, val)
 
                 self.control.move(current_speed_cmd)
 
