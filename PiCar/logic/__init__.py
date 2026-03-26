@@ -38,9 +38,9 @@ class Logic:
                 last_time = now
 
                 sensors = Sensors(self.control.line(), self.control.distance())
-                result = self.fsm.tick(delta * const.picar["distance_rate"], sensors)
+                result = self.fsm.tick(delta, sensors)
                 while result is None:
-                    result = self.fsm.tick(delta * const.picar["distance_rate"], sensors)
+                    result = self.fsm.tick(delta, sensors)
                 self.control.move(result.speed)
 
                 # target_speed = result.speed

@@ -34,7 +34,7 @@ class SharpTurnState:
         sensors: Sensors,
         fsm: "BehaviourFSM",
     ) -> Movement | None:
-        self.distance_parcourue += delta
+        self.distance_parcourue += (delta * const.picar["distance_rate"])
         
         match self.phase:
             case Turn90Phase.FIRST:
