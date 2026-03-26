@@ -18,7 +18,6 @@ class PiCarLine:
         await asyncio.sleep(2)
 
         while True:
-            analog = self.line_follower.read_analog()
-            self.line = self.line_follower.read_digital()
-            print(f"[LineSensor] analog={analog} digital={self.line}")
+            self.distance = self.line_follower.read_digital()
+            print(f"[LineSensor] digital={self.distance}")
             await asyncio.sleep(0.03)

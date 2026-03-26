@@ -48,7 +48,7 @@ class Logic:
 
                 rate = accel_rate if target_speed > current_speed_cmd else decel_rate
                 val = (rate * delta)
-                current_speed_cmd = self.move_toward(current_speed_cmd, target_speed, val)
+                current_speed_cmd = int(self.move_toward(current_speed_cmd, target_speed, val))
 
                 self.control.move(current_speed_cmd)
 
