@@ -4,7 +4,7 @@ picar = {
     "wheel_spacing": 11,  # centimeters
     "wheel_diameter": 6.5,  # centimeters
     "debug": False,
-    "distance_rate": 5,
+    "distance_rate": 20,
 }
 
 two_point_turn = {
