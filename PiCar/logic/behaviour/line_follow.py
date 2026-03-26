@@ -54,7 +54,7 @@ class LineFollowState:
                 fsm.to_sharp_turn(self.last_turn_direction)
                 return None
 
-            print("[LineFollower] LOST - moving forward")
+            print(f"[LineFollower] LOST - moving forward: {active_line}")
             return Movement(const.line_follower["med_speed"], 0)
 
         # position moyenne de la ligne
