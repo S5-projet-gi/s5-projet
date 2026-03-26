@@ -55,22 +55,22 @@ class LineFollowState:
                 return None
 
             print("[LineFollower] LOST - moving forward")
-            return Movement(const.low_speed, 0)
+            return Movement(const.line_follower["med_speed"], 0)
 
         # position moyenne de la ligne
         position = sum(active_line) / len(active_line)
         # print(f"[LineFollower] active={active}, position={position:.2f}")
         # normalisation entre -1 et 1
         if position == -2 or position == 2:
-            steer = position / 2 * const.line_follower_max_turn_angle
+            steer = position / 2 * const.line_follower["max_turn_angle"]
         else:
-            steer = position / 2 * const.line_follower_med_turn_angle
+            steer = position / 2 * const.line_follower["med_turn_angle"]
 
         if position != 0:
             self.last_turn_direction = position / abs(position)
 
         # vitesse selon stabilité
         if abs(steer) < 0.2:
-            return Movement(const.mid_speed, steer)
+            return Movement(const.line_follower["max_speed"], steer)
         else:
-            return Movement(const.low_speed, steer)
+            return Movement(const.line_follower["med_speed"], steer)
