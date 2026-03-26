@@ -42,7 +42,8 @@ class BehaviourFSM:
     def to_wall_avoidance(self) -> bool:
         return self.transition_to(self.wall_avoidance)
 
-    def to_sharp_turn(self) -> bool:
+    def to_sharp_turn(self, direction: int) -> bool:
+        self.sharp_turn.direction = direction
         return self.transition_to(self.sharp_turn)
 
     def to_standby(self) -> bool:

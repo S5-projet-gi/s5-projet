@@ -51,7 +51,7 @@ class LineFollowState:
                 print(
                     f"[LineFollower] LOST - last turn direction={self.last_turn_direction}"
                 )
-                fsm.to_sharp_turn()
+                fsm.to_sharp_turn(self.last_turn_direction)
                 return None
 
             print("[LineFollower] LOST - moving forward")
