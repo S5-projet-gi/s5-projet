@@ -57,7 +57,9 @@ class WebsocketServer:
                 message = json.loads(message)
                 if message["type"] == "sensor":
                     control.sensors = message["data"]
-                    print(f"[Server] Received sensor data: line_follower={message['data'].get('line_follower')}, distance={message['data'].get('distance')}")
+                    print(
+                        f"[Server] Received sensor data: line_follower={message['data'].get('line_follower')}, distance={message['data'].get('distance')}"
+                    )
         finally:
             logic_task.cancel()
             send_task.cancel()
@@ -69,13 +71,17 @@ class WebsocketServer:
         try:
             while True:
                 await asyncio.sleep(0.05)
-                command_data = json.dumps({
-                    "type": "control",
-                    "speed": control.last_speed,
-                    "steer_dir": control.last_steer_dir
-                })
+                command_data = json.dumps(
+                    {
+                        "type": "control",
+                        "speed": control.last_speed,
+                        "steer_dir": control.last_steer_dir,
+                    }
+                )
                 await client.send(command_data)
-                print(f"[Server] Sent: speed={control.last_speed:.3f}, steer_dir={control.last_steer_dir:.3f}")
+                print(
+                    f"[Server] Sent: speed={control.last_speed:.3f}, steer_dir={control.last_steer_dir:.3f}"
+                )
         except asyncio.CancelledError:
             pass
 

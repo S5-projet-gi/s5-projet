@@ -1,13 +1,15 @@
 import sys
-from .import front_wheels
-from .import back_wheels
+from . import front_wheels
+from . import back_wheels
 from .SunFounder_PCA9685 import Servo
-from .import PCF8591
+from . import PCF8591
 from .SunFounder_PCA9685 import PCA9685
+
 
 def servo_install():
     import time
-    delay = 1.0/180
+
+    delay = 1.0 / 180
     if len(sys.argv) >= 3:
         print("servo-install takes no value")
         usage()
@@ -39,6 +41,7 @@ def servo_install():
     while True:
         time.sleep(1)
 
+
 def main():
     setup()
     if len(sys.argv) >= 2:
@@ -51,7 +54,7 @@ def main():
                 except:
                     print("chn must be integer")
                     usage()
-                if 0 <= chn <= 15 :
+                if 0 <= chn <= 15:
                     front_wheels.test(chn)
                 else:
                     print('chn must be in 0~15, not "%s"' % chn)
@@ -65,18 +68,25 @@ def main():
     else:
         usage()
 
+
 def usage():
     print("Usage:  picar [Command] [value]")
     print("Commands:")
-    print("  servo-install              Set 16 channel servos to 90 degree for installation")
-    print("  front-wheel-test [chn]     Test the steering servo connect to chn, chn default 0")
+    print(
+        "  servo-install              Set 16 channel servos to 90 degree for installation"
+    )
+    print(
+        "  front-wheel-test [chn]     Test the steering servo connect to chn, chn default 0"
+    )
     print("  rear-wheel-test            Test the rear wheel")
     quit()
+
 
 class ADC(PCF8591.PCF8591):
     pass
 
+
 def setup():
-    pwm=PCA9685.PWM(bus_number=1)
+    pwm = PCA9685.PWM(bus_number=1)
     pwm.setup()
     pwm.frequency = 60
