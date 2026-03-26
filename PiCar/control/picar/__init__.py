@@ -52,4 +52,5 @@ class PiCarControl(Control):
 
     def line(self) -> list[int]:
         """Measure the luminance of the ground"""
+        print(f"[Control] Line sensor readings: {self._line.line}")
         return self._line.line
