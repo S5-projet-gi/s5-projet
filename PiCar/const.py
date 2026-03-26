@@ -1,6 +1,6 @@
 picar = {
     "max_turn_angle": 45,  # degrees
-    "wheelbase": 14,  # centimeters
+    "wheelbase": 2,  # centimeters
     "wheel_spacing": 11,  # centimeters
     "wheel_diameter": 6.5,  # centimeters
     "debug": False,
