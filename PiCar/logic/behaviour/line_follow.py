@@ -1,6 +1,10 @@
-import const
+from typing import TYPE_CHECKING
 
-from . import BehaviourFSM, Movement, Sensors
+import const
+from logic.behaviour.models import Movement, Sensors
+
+if TYPE_CHECKING:
+    from logic.behaviour.fsm import BehaviourFSM
 
 
 class LineFollowState:
@@ -20,7 +24,7 @@ class LineFollowState:
         self,
         delta: float,
         sensors: Sensors,
-        fsm: BehaviourFSM,
+        fsm: "BehaviourFSM",
     ) -> Movement | None:
         if (
             sensors.distance > 0

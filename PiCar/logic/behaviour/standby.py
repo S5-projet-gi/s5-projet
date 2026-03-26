@@ -1,4 +1,9 @@
-from . import BehaviourFSM, Movement, Sensors
+from typing import TYPE_CHECKING
+
+from logic.behaviour.models import Movement, Sensors
+
+if TYPE_CHECKING:
+    from logic.behaviour.fsm import BehaviourFSM
 
 
 class StandbyState:
@@ -13,6 +18,6 @@ class StandbyState:
         self,
         delta: float,
         sensors: Sensors,
-        fsm: BehaviourFSM,
+        fsm: "BehaviourFSM",
     ) -> Movement | None:
         return Movement(0, None)

@@ -1,4 +1,9 @@
-from . import BehaviourFSM, Movement, Sensors
+from typing import TYPE_CHECKING
+
+from logic.behaviour.models import Movement, Sensors
+
+if TYPE_CHECKING:
+    from logic.behaviour.fsm import BehaviourFSM
 
 
 class SharpTurnState:
@@ -17,7 +22,7 @@ class SharpTurnState:
         self,
         delta: float,
         sensors: Sensors,
-        fsm: BehaviourFSM,
+        fsm: "BehaviourFSM",
     ) -> Movement | None:
         # TODO: Implement actual sharp-turn manoeuvre.
         fsm.to_line_follow()

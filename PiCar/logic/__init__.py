@@ -2,7 +2,7 @@ import asyncio
 import time
 
 from control import Control
-from logic.behaviour import BehaviourFSM, Sensors
+from logic.behaviour.fsm import BehaviourFSM, Sensors
 
 
 class Logic:

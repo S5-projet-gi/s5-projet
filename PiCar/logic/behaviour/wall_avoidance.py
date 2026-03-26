@@ -1,10 +1,11 @@
-from __future__ import annotations
-
 from enum import Enum
+from typing import TYPE_CHECKING
 
 import const
+from logic.behaviour.models import Movement, Sensors
 
-from . import BehaviourFSM, Movement, Sensors
+if TYPE_CHECKING:
+    from logic.behaviour.fsm import BehaviourFSM
 
 
 class AvoidancePhase(Enum):
@@ -35,7 +36,7 @@ class WallAvoidanceState:
         self,
         delta: float,
         sensors: Sensors,
-        fsm: BehaviourFSM,
+        fsm: "BehaviourFSM",
     ) -> Movement | None:
         self.distance_parcourue += delta
 

@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from typing import Protocol
-
-from line_follow import LineFollowState
-from sharp_turn import SharpTurnState
-from standby import StandbyState
-from wall_avoidance import WallAvoidanceState
+from logic.behaviour.line_follow import LineFollowState
+from logic.behaviour.models import BehaviourState, Movement, Sensors
+from logic.behaviour.sharp_turn import SharpTurnState
+from logic.behaviour.standby import StandbyState
+from logic.behaviour.wall_avoidance import WallAvoidanceState
 
 
 class BehaviourFSM:
@@ -15,8 +14,11 @@ class BehaviourFSM:
     States:
     - LineFollowState
     - WallAvoidanceState
-    - SharpTurnState (placeholder)
+    - SharpTurnState
+    - StandbyState
     """
+
+    state: BehaviourState
 
     def __init__(self) -> None:
         self.line_follow = LineFollowState()
@@ -51,34 +53,3 @@ class BehaviourFSM:
         sensors: Sensors,
     ) -> Movement | None:
         return self.state.tick(delta=delta, sensors=sensors, fsm=self)
-
-
-class BehaviourState(Protocol):
-    def reset(self) -> None:
-        raise NotImplementedError("This method must be implemented by a subclass")
-
-    def tick(
-        self,
-        delta: float,
-        sensors: Sensors,
-        fsm: BehaviourFSM,
-    ) -> Movement | None:
-        raise NotImplementedError("This method must be implemented by a subclass")
-
-
-class Sensors:
-    line: list[int]
-    distance: float
-
-    def __init__(self, line: list[int], distance: float) -> None:
-        self.line = line
-        self.distance = distance
-
-
-class Movement:
-    speed: float
-    angle: float | None
-
-    def __init__(self, speed: float, angle: float | None) -> None:
-        self.speed = speed
-        self.angle = angle
