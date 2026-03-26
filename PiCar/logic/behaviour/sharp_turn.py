@@ -42,7 +42,7 @@ class SharpTurnState:
                     self.distance_parcourue = 0.0
                     self.phase = Turn90Phase.SECOND
                     print(f"[TwoPointTurn] Phase 1 complete, switching to phase 2")
-                print(f"[TwoPointTurn] Phase 1 - distance_parcourue={self.distance_parcourue}")
+                print(f"[TwoPointTurn] Phase 1 - distance_parcourue={self.distance_parcourue} - direction={const.two_point_turn["first_distance"]}")
                 return Movement(
                   const.two_point_turn["first_speed"],
                   const.two_point_turn["first_angle"],
