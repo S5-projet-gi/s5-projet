@@ -26,6 +26,7 @@ class BehaviourFSM:
         self.sharp_turn = SharpTurnState()
         self.standby = StandbyState()
 
+        self.state = self.standby
         self.transition_to(self.line_follow)
 
     def transition_to(self, new_state: BehaviourState) -> bool:
