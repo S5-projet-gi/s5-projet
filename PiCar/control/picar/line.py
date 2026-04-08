@@ -22,11 +22,7 @@ class PiCarLine:
                 new_line = self.line_follower.read_analog()
                 print(f"[LineSensor] raw={new_line}")
 
-                if (
-                    isinstance(new_line, list)
-                    and len(new_line) == 5
-                    and all(value in (0, 300) for value in new_line)
-                ):
+                if isinstance(new_line, list) and len(new_line) == 5:
                     self.line = [
                         0
                         if x > const.line_follower["black_threshold"]
