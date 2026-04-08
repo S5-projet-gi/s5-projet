@@ -34,8 +34,8 @@ wall_avoidance = {
 }
 
 line_follower = {
-    "black_threshold": 160,  # 160 on white
-    "gray_threshold": 110,  # 110 on white
+    "black_threshold": 70,  # 160 on white
+    "gray_threshold": 130,  # 110 on white
     "med_turn_angle": 10,
     "max_turn_angle": picar["max_turn_angle"],
     "med_speed": 30,
