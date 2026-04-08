@@ -38,7 +38,7 @@ class LineFollowState:
         # -------------------------
         # Cas spécial : tous actifs = FIN DE COURSE
         # -------------------------
-        if all([x == 0 for x in sensors.line]):
+        if all([x == 2 for x in sensors.line]):
             print("[LineFollower] ALL SENSORS ACTIVE - FINISHED!")
             fsm.to_standby()
             return
@@ -46,7 +46,7 @@ class LineFollowState:
         # -------------------------
         # Cas : aucun capteur
         # -------------------------
-        if all([x == 1 for x in sensors.line]):
+        if all([x == 0 for x in sensors.line]):
             if self.last_turn_direction != 0:
                 print(
                     f"[LineFollower] LOST - last turn direction={self.last_turn_direction}"
@@ -54,23 +54,32 @@ class LineFollowState:
                 fsm.to_sharp_turn(self.last_turn_direction)
                 return None
 
-            print(f"[LineFollower] LOST - moving forward: {active_line}")
+            print(f"[LineFollower] LOST - moving forward: {sensors.line}")
             return Movement(const.line_follower["med_speed"], 0)
 
-        # position moyenne de la ligne
-        position = sum(active_line) / len(active_line)
-        # print(f"[LineFollower] active={active}, position={position:.2f}")
-        # normalisation entre -1 et 1
-        if position == -2 or position == 2:
-            steer = position / 2 * const.line_follower["max_turn_angle"]
-        else:
-            steer = position / 2 * const.line_follower["med_turn_angle"]
+        if sensors.line[0] == 1 and sensors.line[1] == 0:
+            self.last_turn_direction = 1
+            return Movement(
+                const.line_follower["med_speed"], const.line_follower["max_turn_angle"]
+            )
+        if sensors.line[4] == 1 and sensors.line[3] == 0:
+            self.last_turn_direction = -1
+            return Movement(
+                const.line_follower["med_speed"], -const.line_follower["max_turn_angle"]
+            )
 
-        if position != 0:
-            self.last_turn_direction = position / abs(position)
+        angle = (
+            const.line_follower["max_turn_angle"] * sensors.line[0]
+            + const.line_follower["med_turn_angle"] * sensors.line[1]
+            - const.line_follower["med_turn_angle"] * sensors.line[3]
+            - const.line_follower["max_turn_angle"] * sensors.line[4]
+        ) / 2
+
+        if angle != 0:
+            self.last_turn_direction = angle / abs(angle)
 
         # vitesse selon stabilité
-        if abs(steer) < 0.2:
-            return Movement(const.line_follower["max_speed"], steer)
+        if abs(angle) < 0.2:
+            return Movement(const.line_follower["max_speed"], angle)
         else:
-            return Movement(const.line_follower["med_speed"], steer)
+            return Movement(const.line_follower["med_speed"], angle)
