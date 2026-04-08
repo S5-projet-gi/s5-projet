@@ -55,17 +55,19 @@ class LineFollowState:
                 return None
 
             print(f"[LineFollower] LOST - moving forward: {sensors.line}")
-            return Movement(const.line_follower["med_speed"], 0)
+            return Movement(const.line_follower["max_turn_speed"], 0)
 
         if sensors.line[0] == 1 and sensors.line[1] == 0:
             self.last_turn_direction = -1
             return Movement(
-                const.line_follower["med_speed"], -const.line_follower["max_turn_angle"]
+                const.line_follower["max_turn_speed"],
+                -const.line_follower["max_turn_angle"],
             )
         if sensors.line[4] == 1 and sensors.line[3] == 0:
             self.last_turn_direction = 1
             return Movement(
-                const.line_follower["med_speed"], const.line_follower["max_turn_angle"]
+                const.line_follower["max_turn_speed"],
+                const.line_follower["max_turn_angle"],
             )
 
         angle = (
@@ -80,6 +82,6 @@ class LineFollowState:
 
         # vitesse selon stabilité
         if abs(angle) < 0.2:
-            return Movement(const.line_follower["max_speed"], angle)
+            return Movement(const.line_follower["med_turn_speed"], angle)
         else:
-            return Movement(const.line_follower["med_speed"], angle)
+            return Movement(const.line_follower["max_turn_speed"], angle)
