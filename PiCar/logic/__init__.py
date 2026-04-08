@@ -1,5 +1,6 @@
 import asyncio
 import time
+import pytweening
 
 import const
 from control import Control
@@ -28,6 +29,11 @@ class Logic:
         # Wait for sensors to be initialized
         await asyncio.sleep(2)
 
+        target_angle = 0
+        start_angle = 0
+        current_angle = 0
+        total_time_angle = 0
+        current_time_angle = 0
         current_speed_cmd = 0.0
         last_time = time.monotonic()
 
@@ -52,10 +58,24 @@ class Logic:
                 # val = (rate * delta)
                 # current_speed_cmd = int(self.move_toward(current_speed_cmd, target_speed, val))
 
-                #self.control.move(current_speed_cmd)
+                # self.control.move(current_speed_cmd)
 
-                if result.angle is not None:
-                    self.control.turn(result.angle)
+                if result.angle is not None and result.angle != target_angle:
+                    target_angle = result.angle
+                    start_angle = current_angle
+                    total_time_angle = abs(target_angle - start_angle) / 4
+
+                if (
+                    current_angle != target_angle
+                    and total_time_angle >= current_time_angle
+                ):
+                    ratio = pytweening.easeInOutQuad(
+                        current_time_angle / total_time_angle
+                    )
+                    current_time_angle += delta
+                    angle = start_angle + ratio * (target_angle - start_angle)
+                    self.control.turn(angle)
+                    current_angle = angle
 
                 await asyncio.sleep(0.01)
             except Exception as e:
