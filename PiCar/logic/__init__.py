@@ -80,7 +80,9 @@ class Logic:
                         current_time_speed / total_time_speed
                     )
                     current_time_speed += delta
-                    current_speed = start_speed + ratio * (target_speed - start_speed)
+                    current_speed = int(
+                        start_speed + ratio * (target_speed - start_speed)
+                    )
                     self.control.move(current_speed)
                     print(
                         f"[Logic] Accelerating - target={target_speed:.2f}, current={current_speed:.2f}, ratio={ratio:.2f}"
