@@ -15,7 +15,7 @@ two_point_turn = {
     "first_speed": 30,
     "first_angle": 0,
     # Tourner à 90 degrés
-    "second_distance": picar["wheelbase"] * 2.2,
+    "second_distance": picar["wheelbase"] * 3,
     "second_speed": -30,
     "second_angle": picar["max_turn_angle"],
 }

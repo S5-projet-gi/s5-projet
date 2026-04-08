@@ -76,7 +76,7 @@ class Logic:
                     current_speed != target_speed
                     and total_time_speed >= current_time_speed
                 ):
-                    ratio = pytweening.easeInOutQuad(
+                    ratio = pytweening.easeOutSine(
                         current_time_speed / total_time_speed
                     )
                     current_time_speed += delta
@@ -104,7 +104,7 @@ class Logic:
                     current_angle != target_angle
                     and total_time_angle >= current_time_angle
                 ):
-                    ratio = pytweening.easeInOutQuad(
+                    ratio = pytweening.easeOutSine(
                         current_time_angle / total_time_angle
                     )
                     current_time_angle += delta
