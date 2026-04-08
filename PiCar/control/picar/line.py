@@ -20,6 +20,8 @@ class PiCarLine:
         while True:
             try:
                 new_line = self.line_follower.read_analog()
+                new_line[0] *= 1.2
+                new_line[1] *= 1.8
                 print(f"[LineSensor] raw={new_line}")
 
                 if isinstance(new_line, list) and len(new_line) == 5:
