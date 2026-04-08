@@ -63,7 +63,10 @@ class Logic:
                 if result.angle is not None and result.angle != target_angle:
                     target_angle = result.angle
                     start_angle = current_angle
-                    total_time_angle = abs(target_angle - start_angle) / 25
+                    total_time_angle = (
+                        abs(target_angle - start_angle)
+                        / const.picar["angle_accel_rate"]
+                    )
                     current_time_angle = 0
                     print(
                         f"[Logic] New target angle: {target_angle:.2f} (current: {current_angle:.2f})"
