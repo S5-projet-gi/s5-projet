@@ -11,6 +11,8 @@ if TYPE_CHECKING:
 class Sensors:
     line: list[int]
     distance: float
+    speed: float
+    angle: float
 
 
 @dataclass

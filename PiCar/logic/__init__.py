@@ -34,7 +34,13 @@ class Logic:
         current_angle = 0
         total_time_angle = 0
         current_time_angle = 0
-        current_speed_cmd = 0.0
+
+        target_speed = 0.0
+        start_speed = 0.0
+        current_speed = 0.0
+        total_time_speed = 0.0
+        current_time_speed = 0.0
+
         last_time = time.monotonic()
 
         while True:
@@ -43,22 +49,42 @@ class Logic:
                 delta = now - last_time
                 last_time = now
 
-                sensors = Sensors(self.control.line(), self.control.distance())
+                sensors = Sensors(
+                    self.control.line(),
+                    self.control.distance(),
+                    current_speed,
+                    current_angle,
+                )
                 result = self.fsm.tick(delta, sensors)
                 while result is None:
                     result = self.fsm.tick(delta, sensors)
-                self.control.move(result.speed)
 
-                # target_speed = result.speed
+                # Handle speed easing
+                if result.speed != target_speed:
+                    target_speed = result.speed
+                    start_speed = current_speed
+                    total_time_speed = (
+                        abs(target_speed - start_speed)
+                        / const.picar["speed_accel_rate"]
+                    )
+                    current_time_speed = 0
+                    print(
+                        f"[Logic] New target speed: {target_speed:.2f} (current: {current_speed:.2f})"
+                    )
 
-                # accel_rate = 20.0
-                # decel_rate = 50.0 # on peut decel plus vite parce que ya le capteur de ligne qui block la bille
-
-                # rate = accel_rate if target_speed > current_speed_cmd else decel_rate
-                # val = (rate * delta)
-                # current_speed_cmd = int(self.move_toward(current_speed_cmd, target_speed, val))
-
-                # self.control.move(current_speed_cmd)
+                if (
+                    current_speed != target_speed
+                    and total_time_speed >= current_time_speed
+                ):
+                    ratio = pytweening.easeInOutQuad(
+                        current_time_speed / total_time_speed
+                    )
+                    current_time_speed += delta
+                    current_speed = start_speed + ratio * (target_speed - start_speed)
+                    self.control.move(current_speed)
+                    print(
+                        f"[Logic] Accelerating - target={target_speed:.2f}, current={current_speed:.2f}, ratio={ratio:.2f}"
+                    )
 
                 if result.angle is not None and result.angle != target_angle:
                     target_angle = result.angle
