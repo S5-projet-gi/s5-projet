@@ -5,7 +5,7 @@ picar = {
     "wheel_diameter": 6.5,  # centimeters
     "debug": False,
     "distance_rate": 20,
-    "angle_accel_rate": 100.0,
+    "angle_accel_rate": 70.0,
     "speed_accel_rate": 50.0,
 }
 
