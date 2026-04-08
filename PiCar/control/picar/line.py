@@ -20,6 +20,9 @@ class PiCarLine:
         while True:
             try:
                 new_line = self.line_follower.read_digital()
+                print(f"[LineSensor] analog={self.line_follower.read_analog()}")  # for debugging
+
+                print(f"[LineSensor] raw={new_line}")
 
                 if (
                     isinstance(new_line, list)
