@@ -38,7 +38,7 @@ class LineFollowState:
         # -------------------------
         # Cas spécial : tous actifs = FIN DE COURSE
         # -------------------------
-        if len(active_line) == 5:
+        if all([x == 0 for x in sensors.line]):
             print("[LineFollower] ALL SENSORS ACTIVE - FINISHED!")
             fsm.to_standby()
             return
@@ -46,7 +46,7 @@ class LineFollowState:
         # -------------------------
         # Cas : aucun capteur
         # -------------------------
-        if not active_line:
+        if all([x == 1 for x in sensors.line]):
             if self.last_turn_direction != 0:
                 print(
                     f"[LineFollower] LOST - last turn direction={self.last_turn_direction}"

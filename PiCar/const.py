@@ -12,8 +12,7 @@ two_point_turn = {
     "first_distance": picar["wheelbase"] * 2.2,
     "first_speed": 30,
     "first_angle": 0,
-
-    # Tourner à 90 degrés 
+    # Tourner à 90 degrés
     "second_distance": picar["wheelbase"] * 2.2,
     "second_speed": -30,
     "second_angle": picar["max_turn_angle"],
@@ -33,7 +32,8 @@ wall_avoidance = {
 }
 
 line_follower = {
-    "black_threshold": 95,
+    "black_threshold": 160,
+    "gray_threshold": 110,
     "med_turn_angle": 10,
     "max_turn_angle": picar["max_turn_angle"],
     "med_speed": 30,
