@@ -25,9 +25,9 @@ class PiCarLine:
                 if isinstance(new_line, list) and len(new_line) == 5:
                     self.line = [
                         0
-                        if x > const.line_follower["black_threshold"]
+                        if x < const.line_follower["black_threshold"]
                         else 1
-                        if x > const.line_follower["gray_threshold"]
+                        if x < const.line_follower["gray_threshold"]
                         else 2
                         for x in new_line
                     ]
