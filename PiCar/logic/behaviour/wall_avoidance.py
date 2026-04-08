@@ -12,6 +12,7 @@ class AvoidancePhase(Enum):
     FIRST = "first"
     SECOND = "second"
     THIRD = "third"
+    FOURTH = "fourth"
 
 
 class WallAvoidanceState:
@@ -22,6 +23,7 @@ class WallAvoidanceState:
     1) Rotate right backwards (point car left)
     2) Move forward (skip wall)
     3) Rotate right (reach line)
+    3) Rotate left (align to line)
     4) Transition back to line follow
     """
 
@@ -38,7 +40,13 @@ class WallAvoidanceState:
         sensors: Sensors,
         fsm: "BehaviourFSM",
     ) -> Movement | None:
-        self.distance_parcourue += (delta * const.picar["distance_rate"])
+        if self.phase == AvoidancePhase and sensors.speed > 0:
+            return Movement(
+                0,
+                0,
+            )
+
+        self.distance_parcourue += delta * const.picar["distance_rate"]
 
         match self.phase:
             case AvoidancePhase.FIRST:
@@ -46,7 +54,10 @@ class WallAvoidanceState:
                     self.phase = AvoidancePhase.SECOND
                     self.distance_parcourue = 0.0
                     print(f"[WallAvoidance] Phase 1 complete, switching to phase 2")
-                print(f"[WallAvoidance] Phase 1 - distance_parcourue={self.distance_parcourue}")
+                    return
+                print(
+                    f"[WallAvoidance] Phase 1 - distance_parcourue={self.distance_parcourue}"
+                )
                 return Movement(
                     const.wall_avoidance["first_speed"],
                     const.wall_avoidance["first_angle"],
@@ -56,17 +67,36 @@ class WallAvoidanceState:
                     self.phase = AvoidancePhase.THIRD
                     self.distance_parcourue = 0.0
                     print(f"[WallAvoidance] Phase 2 complete, switching to phase 3")
-                print(f"[WallAvoidance] Phase 2 - distance_parcourue={self.distance_parcourue}")
+                    return
+                print(
+                    f"[WallAvoidance] Phase 2 - distance_parcourue={self.distance_parcourue}"
+                )
                 return Movement(
                     const.wall_avoidance["second_speed"],
                     const.wall_avoidance["second_angle"],
                 )
             case AvoidancePhase.THIRD:
-                if self.distance_parcourue >= const.wall_avoidance["third_time"]:
-                    fsm.to_line_follow()
-                    print(f"[WallAvoidance] Phase 3 complete, switching to line follow")
-                print(f"[WallAvoidance] Phase 3 - distance_parcourue={self.distance_parcourue}")
+                if any([x != 0 for x in sensors.line]):
+                    self.phase = AvoidancePhase.FOURTH
+                    self.distance_parcourue = 0.0
+                    print(f"[WallAvoidance] Phase 3 complete, switching to phase 4")
+                    return
+                print(
+                    f"[WallAvoidance] Phase 3 - distance_parcourue={self.distance_parcourue}"
+                )
                 return Movement(
                     const.wall_avoidance["third_speed"],
                     const.wall_avoidance["third_angle"],
+                )
+            case AvoidancePhase.FOURTH:
+                if sensors.line == [0, 0, 2, 0, 0]:
+                    fsm.to_line_follow()
+                    print(f"[WallAvoidance] Phase 4 complete, switching to line follow")
+                    return
+                print(
+                    f"[WallAvoidance] Phase 4 - distance_parcourue={self.distance_parcourue}"
+                )
+                return Movement(
+                    const.wall_avoidance["fourth_speed"],
+                    const.wall_avoidance["fourth_angle"],
                 )
