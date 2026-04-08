@@ -6,6 +6,7 @@ picar = {
     "debug": False,
     "distance_rate": 20,
     "angle_accel_rate": 50.0,
+    "speed_accel_rate": 50.0,
 }
 
 two_point_turn = {
