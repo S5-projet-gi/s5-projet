@@ -65,6 +65,9 @@ class Logic:
                     start_angle = current_angle
                     total_time_angle = abs(target_angle - start_angle)
                     current_time_angle = 0
+                    print(
+                        f"[Logic] New target angle: {target_angle:.2f} (current: {current_angle:.2f})"
+                    )
 
                 if (
                     current_angle != target_angle
@@ -77,6 +80,9 @@ class Logic:
                     angle = start_angle + ratio * (target_angle - start_angle)
                     self.control.turn(angle)
                     current_angle = angle
+                    print(
+                        f"[Logic] Turning - target={target_angle:.2f}, current={current_angle:.2f}, ratio={ratio:.2f}"
+                    )
 
                 await asyncio.sleep(0.01)
             except Exception as e:
