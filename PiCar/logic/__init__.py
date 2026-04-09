@@ -45,8 +45,8 @@ class Logic:
 
         last_time = time.monotonic()
 
-        backwards_mult_angle = 0 if "back" in sys.argv else 1
-        backwards_mult_speed = -1 if "back" in sys.argv else 1
+        backwards_mult_angle = 0 if ("back" in sys.argv) else 1
+        backwards_mult_speed = -1 if ("back" in sys.argv) else 1
 
         while True:
             try:
