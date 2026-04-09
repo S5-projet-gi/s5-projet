@@ -25,7 +25,7 @@ wall_avoidance = {
     "trigger_distance": 13,
     "first_speed": -40,
     "first_time": 45,
-    "first_angle": 35,
+    "first_angle": 45,
     # Avancer
     "second_speed": 40,
     "second_time": 60,
