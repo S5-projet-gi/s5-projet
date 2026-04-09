@@ -45,7 +45,8 @@ class Logic:
 
         last_time = time.monotonic()
 
-        backwards_mult = -1 if "back" in sys.argv else 1
+        backwards_mult_angle = 0 if "back" in sys.argv else 1
+        backwards_mult_speed = -1 if "back" in sys.argv else 1
 
         while True:
             try:
@@ -64,8 +65,8 @@ class Logic:
                     result = self.fsm.tick(delta, sensors)
 
                 # Handle speed easing
-                if backwards_mult * result.speed != target_speed:
-                    target_speed = backwards_mult * result.speed
+                if backwards_mult_speed * result.speed != target_speed:
+                    target_speed = backwards_mult_speed * result.speed
                     start_speed = current_speed
                     total_time_speed = (
                         abs(target_speed - start_speed)
@@ -94,9 +95,9 @@ class Logic:
 
                 if (
                     result.angle is not None
-                    and backwards_mult * result.angle != target_angle
+                    and backwards_mult_angle * result.angle != target_angle
                 ):
-                    target_angle = backwards_mult * result.angle
+                    target_angle = backwards_mult_angle * result.angle
                     start_angle = current_angle
                     total_time_angle = (
                         abs(target_angle - start_angle)
