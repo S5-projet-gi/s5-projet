@@ -18,6 +18,7 @@ async def main():
         print("Starting PiCar control...")
         control = PiCarControl()
         logic = Logic(control)
+        await asyncio.sleep(2)
         await logic.run()
         return
 
