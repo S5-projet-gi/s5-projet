@@ -25,11 +25,11 @@ wall_avoidance = {
     "trigger_distance": 13,
     "first_speed": -40,
     "first_time": 45,
-    "first_angle": picar["max_turn_angle"],
+    "first_angle": 35,
     # Avancer
     "second_speed": 40,
     "second_time": 60,
-    "second_angle": 5,
+    "second_angle": 10,
     # Avancer en tournant pour retourner la ligne
     "third_speed": 40,
     "third_angle": 35,
