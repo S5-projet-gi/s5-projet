@@ -11,28 +11,28 @@ picar = {
 
 two_point_turn = {
     # Avancer plus loin que la ligne
-    "first_distance": picar["wheelbase"] * 2.2,
+    "first_distance": picar["wheelbase"] * 1,
     "first_speed": 30,
     "first_angle": 0,
     # Tourner à 90 degrés
-    "second_distance": picar["wheelbase"] * 3,
+    "second_distance": picar["wheelbase"] * 4,
     "second_speed": -30,
     "second_angle": picar["max_turn_angle"],
 }
 
 wall_avoidance = {
     # Reculer en tournant
-    "trigger_distance": 20,
+    "trigger_distance": 16,
     "first_speed": -40,
     "first_time": 45,
     "first_angle": picar["max_turn_angle"],
     # Avancer
     "second_speed": 40,
-    "second_time": 50,
+    "second_time": 60,
     "second_angle": 5,
     # Avancer en tournant pour retourner la ligne
     "third_speed": 40,
-    "third_angle": 40,
+    "third_angle": 35,
     # Tourner de l'autre côté pour s'enligner
     "fourth_speed": 20,
     "fourth_angle": -picar["max_turn_angle"],
