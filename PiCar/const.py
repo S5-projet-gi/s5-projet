@@ -22,13 +22,13 @@ two_point_turn = {
 
 wall_avoidance = {
     # Reculer en tournant
-    "trigger_distance": 13,
+    "trigger_distance": 14,
     "first_speed": -40,
     "first_time": 45,
     "first_angle": 45,
     # Avancer
     "second_speed": 40,
-    "second_time": 60,
+    "second_time": 65,
     "second_angle": 10,
     # Avancer en tournant pour retourner la ligne
     "third_speed": 40,
