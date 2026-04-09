@@ -21,7 +21,6 @@ class PiCarUltrasonic:
         asyncio.create_task(self.measure_distance_task())
 
     async def measure_distance_task(self):
-        await asyncio.sleep(2)
         self.distance = 0
 
         while True:
