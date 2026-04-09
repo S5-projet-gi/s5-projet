@@ -11,11 +11,11 @@ picar = {
 
 two_point_turn = {
     # Avancer plus loin que la ligne
-    "first_distance": picar["wheelbase"] * 1,
+    "first_distance": picar["wheelbase"] * 1.2,
     "first_speed": 30,
     "first_angle": 0,
     # Tourner à 90 degrés
-    "second_distance": picar["wheelbase"] * 4,
+    "second_distance": picar["wheelbase"] * 3,
     "second_speed": -30,
     "second_angle": picar["max_turn_angle"],
 }
