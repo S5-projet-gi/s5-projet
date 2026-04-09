@@ -11,7 +11,7 @@ from logic import Logic
 
 
 async def main():
-    if (len(sys.argv) > 1 and sys.argv[1] == "pi") or os.getlogin() == "pi":
+    if "pi" in sys.argv or os.getlogin() == "pi":
         # PiCar
         from control.picar import PiCarControl
 

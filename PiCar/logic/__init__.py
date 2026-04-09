@@ -1,5 +1,7 @@
 import asyncio
+import sys
 import time
+
 import pytweening
 
 import const
@@ -43,6 +45,8 @@ class Logic:
 
         last_time = time.monotonic()
 
+        backwards_mult = -1 if "back" in sys.argv else 1
+
         while True:
             try:
                 now = time.monotonic()
@@ -60,8 +64,8 @@ class Logic:
                     result = self.fsm.tick(delta, sensors)
 
                 # Handle speed easing
-                if result.speed != target_speed:
-                    target_speed = result.speed
+                if backwards_mult * result.speed != target_speed:
+                    target_speed = backwards_mult * result.speed
                     start_speed = current_speed
                     total_time_speed = (
                         abs(target_speed - start_speed)
@@ -88,8 +92,11 @@ class Logic:
                         f"[Logic] Accelerating - target={target_speed:.2f}, current={current_speed:.2f}, ratio={ratio:.2f}"
                     )
 
-                if result.angle is not None and result.angle != target_angle:
-                    target_angle = result.angle
+                if (
+                    result.angle is not None
+                    and backwards_mult * result.angle != target_angle
+                ):
+                    target_angle = backwards_mult * result.angle
                     start_angle = current_angle
                     total_time_angle = (
                         abs(target_angle - start_angle)
