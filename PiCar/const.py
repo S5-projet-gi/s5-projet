@@ -45,6 +45,6 @@ line_follower = {
     "med_turn_angle": 20,
     "med_turn_speed": 30,
     "max_turn_angle": picar["max_turn_angle"],
-    "max_turn_speed": 25,
+    "max_turn_speed": 45,
     "lost_angle": picar["max_turn_angle"],
 }
