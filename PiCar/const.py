@@ -25,17 +25,17 @@ wall_avoidance = {
     "trigger_distance": 15,
     "first_speed": -40,
     "first_time": 45,
-    "first_angle": 30,
+    "first_angle": -30,
     # Avancer
     "second_speed": 40,
     "second_time": 65,
-    "second_angle": 5,
+    "second_angle": -5,
     # Avancer en tournant pour retourner la ligne
     "third_speed": 40,
-    "third_angle": 35,
+    "third_angle": -35,
     # Tourner de l'autre côté pour s'enligner
     "fourth_speed": 20,
-    "fourth_angle": -picar["max_turn_angle"],
+    "fourth_angle": picar["max_turn_angle"],
 }
 
 line_follower = {
