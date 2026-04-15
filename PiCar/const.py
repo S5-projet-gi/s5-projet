@@ -22,7 +22,7 @@ two_point_turn = {
 
 wall_avoidance = {
     # Reculer en tournant
-    "trigger_distance": 18,
+    "trigger_distance": 15,
     "first_speed": -40,
     "first_time": 30,
     "first_angle": 30,
@@ -43,7 +43,7 @@ line_follower = {
     "black_threshold": 130,  # 130 on white
     "gray_threshold": 110,  # 110 on white
     "med_turn_angle": 20,
-    "med_turn_speed": 40,
+    "med_turn_speed": 30,
     "max_turn_angle": picar["max_turn_angle"],
     "max_turn_speed": 25,
     "lost_angle": picar["max_turn_angle"],
