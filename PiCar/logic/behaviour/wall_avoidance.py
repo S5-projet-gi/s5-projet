@@ -89,7 +89,10 @@ class WallAvoidanceState:
                     const.wall_avoidance["third_angle"],
                 )
             case AvoidancePhase.FOURTH:
-                if sensors.line == [0, 0, 2, 0, 0]:
+                if (
+                    sensors.line == [0, 0, 2, 0, 0]
+                    and self.distance_parcourue >= const.wall_avoidance["fourth_time"]
+                ):
                     fsm.to_line_follow()
                     print(f"[WallAvoidance] Phase 4 complete, switching to line follow")
                     return

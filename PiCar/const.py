@@ -35,6 +35,7 @@ wall_avoidance = {
     "third_angle": 35,
     # Tourner de l'autre côté pour s'enligner
     "fourth_speed": 20,
+    "fourth_time": 12,
     "fourth_angle": -picar["max_turn_angle"],
 }
 
@@ -45,4 +46,5 @@ line_follower = {
     "med_turn_speed": 30,
     "max_turn_angle": picar["max_turn_angle"],
     "max_turn_speed": 25,
+    "lost_angle": picar["max_turn_angle"],
 }

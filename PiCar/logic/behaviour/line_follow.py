@@ -51,8 +51,15 @@ class LineFollowState:
                 print(
                     f"[LineFollower] LOST - last turn direction={self.last_turn_direction}"
                 )
-                fsm.to_sharp_turn(self.last_turn_direction)
-                return None
+
+                # fsm.to_sharp_turn(self.last_turn_direction)
+                # return None
+
+                # Tourner à lost_angle jusqu'à retrouver la ligne
+                angle = const.line_follower["lost_angle"] * (
+                    1 if self.last_turn_direction > 0 else -1
+                )
+                return Movement(const.line_follower["max_turn_speed"], angle)
 
             print(f"[LineFollower] LOST - moving forward: {sensors.line}")
             return Movement(const.line_follower["max_turn_speed"], 0)
