@@ -22,16 +22,16 @@ two_point_turn = {
 
 wall_avoidance = {
     # Reculer en tournant
-    "trigger_distance": 22,
-    "first_speed": -40,
-    "first_time": 42,
+    "trigger_distance": 25,
+    "first_speed": -30,
+    "first_time": 50,
     "first_angle": 40,
     # Avancer
-    "second_speed": 40,
-    "second_time": 75,
+    "second_speed": 30,
+    "second_time": 85,
     "second_angle": 5,
     # Avancer en tournant pour retourner la ligne
-    "third_speed": 40,
+    "third_speed": 30,
     "third_angle": 35,
     # Tourner de l'autre côté pour s'enligner
     "fourth_speed": 20,
@@ -43,8 +43,8 @@ line_follower = {
     "black_threshold": 130,  # 130 on white
     "gray_threshold": 110,  # 110 on white
     "med_turn_angle": 15,
-    "med_turn_speed": 35,
+    "med_turn_speed": 40,
     "max_turn_angle": picar["max_turn_angle"],
-    "max_turn_speed": 30,
+    "max_turn_speed": 35,
     "lost_angle": picar["max_turn_angle"],
 }
