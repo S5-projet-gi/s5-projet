@@ -5,8 +5,8 @@ picar = {
     "wheel_diameter": 6.5,  # centimeters
     "debug": False,
     "distance_rate": 20,
-    "angle_accel_rate": 60.0,
-    "speed_accel_rate": 40.0,
+    "angle_accel_rate": 50.0,
+    "speed_accel_rate": 35.0,
 }
 
 two_point_turn = {
@@ -22,13 +22,13 @@ two_point_turn = {
 
 wall_avoidance = {
     # Reculer en tournant
-    "trigger_distance": 18,
+    "trigger_distance": 22,
     "first_speed": -40,
     "first_time": 42,
     "first_angle": 40,
     # Avancer
     "second_speed": 40,
-    "second_time": 70,
+    "second_time": 75,
     "second_angle": 5,
     # Avancer en tournant pour retourner la ligne
     "third_speed": 40,
@@ -45,6 +45,6 @@ line_follower = {
     "med_turn_angle": 20,
     "med_turn_speed": 40,
     "max_turn_angle": picar["max_turn_angle"],
-    "max_turn_speed": 25,
+    "max_turn_speed": 30,
     "lost_angle": picar["max_turn_angle"],
 }
