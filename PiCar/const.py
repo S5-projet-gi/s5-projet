@@ -24,11 +24,11 @@ wall_avoidance = {
     # Reculer en tournant
     "trigger_distance": 25,
     "first_speed": -30,
-    "first_time": 50,
+    "first_time": 65,
     "first_angle": 40,
     # Avancer
     "second_speed": 30,
-    "second_time": 85,
+    "second_time": 115,
     "second_angle": 5,
     # Avancer en tournant pour retourner la ligne
     "third_speed": 30,
@@ -42,9 +42,9 @@ wall_avoidance = {
 line_follower = {
     "black_threshold": 130,  # 130 on white
     "gray_threshold": 110,  # 110 on white
-    "med_turn_angle": 10,
+    "med_turn_angle": 8,
     "med_turn_speed": 40,
-    "max_turn_angle": 40,
+    "max_turn_angle": 35,
     "max_turn_speed": 35,
     "lost_angle": picar["max_turn_angle"],
 }
