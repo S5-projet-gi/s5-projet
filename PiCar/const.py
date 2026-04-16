@@ -28,7 +28,7 @@ wall_avoidance = {
     "first_angle": 40,
     # Avancer
     "second_speed": 40,
-    "second_time": 65,
+    "second_time": 70,
     "second_angle": 5,
     # Avancer en tournant pour retourner la ligne
     "third_speed": 40,
