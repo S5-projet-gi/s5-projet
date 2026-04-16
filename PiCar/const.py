@@ -24,7 +24,7 @@ wall_avoidance = {
     # Reculer en tournant
     "trigger_distance": 15,
     "first_speed": -40,
-    "first_time": 35,
+    "first_time": 40,
     "first_angle": 40,
     # Avancer
     "second_speed": 40,
