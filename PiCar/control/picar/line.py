@@ -46,4 +46,4 @@ class PiCarLine:
                 print(
                     f"[LineSensor] unexpected read error ignored: {e}, keeping last={self.line}"
                 )
-            await asyncio.sleep(0.03)
+            await asyncio.sleep(0.01)
