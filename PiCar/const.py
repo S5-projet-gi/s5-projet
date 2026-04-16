@@ -43,7 +43,7 @@ line_follower = {
     "black_threshold": 130,  # 130 on white
     "gray_threshold": 110,  # 110 on white
     "med_turn_angle": 20,
-    "med_turn_speed": 30,
+    "med_turn_speed": 40,
     "max_turn_angle": picar["max_turn_angle"],
     "max_turn_speed": 25,
     "lost_angle": picar["max_turn_angle"],
